@@ -1,2 +1,4 @@
-package com.example.bookstore.entity;public class SanPhamDoChoi {
+package com.example.bookstore.entity;
+
+public class SanPhamDoChoi {
 }

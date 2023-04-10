@@ -1,2 +1,8 @@
-package com.example.bookstore.controller;public class MainController {
+package com.example.bookstore.controller;
+
+
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class MainController {
 }
