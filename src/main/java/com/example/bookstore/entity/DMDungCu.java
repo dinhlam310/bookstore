@@ -3,6 +3,8 @@ package com.example.bookstore.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Data
 @Entity
@@ -12,6 +14,7 @@ public class DMDungCu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaDMDungCu", nullable = false)
+    @NotBlank(message = "Không được để trống")
     private String MaDMDungCu;
 
     @Column(name = "Khoi", nullable = false)
@@ -19,14 +22,5 @@ public class DMDungCu {
 
     @Column(name = "MoTa", nullable = false)
     private String MoTa;
-
-    public DMDungCu() {
-    }
-
-    public DMDungCu(String MaDMDungCu, String Khoi, String MoTa) {
-        this.MaDMDungCu = MaDMDungCu;
-        this.Khoi = Khoi;
-        this.MoTa = MoTa;
-    }
 }
 
