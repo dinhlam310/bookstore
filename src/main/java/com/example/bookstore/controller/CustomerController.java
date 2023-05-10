@@ -1,5 +1,6 @@
 package com.example.bookstore.controller;
 
+import com.example.bookstore.DTO.CustomerDTO;
 import com.example.bookstore.entity.KhachHang;
 import com.example.bookstore.repository.CustomerRepository;
 import com.example.bookstore.service.CustomerService;
@@ -38,32 +39,36 @@ public class CustomerController {
         return ResponseEntity.ok().body(khachHang);
     }
 
-    @PutMapping("/customers/{id}")
-    public ResponseEntity<KhachHang> updateCustomer(@PathVariable(value = "maKhachHang") String maKhachHang, @Valid @RequestBody KhachHang customerDetails) throws ResourceNotFoundException {
-        KhachHang khachHang = customerRepository.findById(maKhachHang)
-                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy khách hàng với ID: " + maKhachHang));
+//    @PutMapping("/customers/{id}")
+//    public ResponseEntity<KhachHang> updateCustomer(@PathVariable(value = "maKhachHang") String maKhachHang, @Valid @RequestBody KhachHang customerDetails) throws ResourceNotFoundException {
+//        KhachHang khachHang = CustomerRepository.findById(maKhachHang)
+//                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy khách hàng với ID: " + maKhachHang));
+//
+//        // Cập nhật thông tin khách hàng
+//        khachHang.setTenKhachHang(customerDetails.getTenKhachHang());
+//        khachHang.setEmail(customerDetails.getEmail());
+//        khachHang.setSoDienThoai(customerDetails.getSoDienThoai());
+//        // Cập nhật các trường khác tùy theo yêu cầu của bạn
+//
+//        final KhachHang updatedCustomer = customerRepository.save(khachHang);
+//        return ResponseEntity.ok(updatedCustomer);
+//    }
 
-        // Cập nhật thông tin khách hàng
-        khachHang.setTenKhachHang(customerDetails.getTenKhachHang());
-        khachHang.setEmail(customerDetails.getEmail());
-        khachHang.setSoDienThoai(customerDetails.getSoDienThoai());
-        // Cập nhật các trường khác tùy theo yêu cầu của bạn
-
-        final KhachHang updatedCustomer = customerRepository.save(khachHang);
+    @PutMapping("/{customerId}")
+    public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable("customerId") String maKhachHang, @RequestBody CustomerDTO customerDTO) {
+        CustomerDTO updatedCustomer = customerService.updateCustomer(maKhachHang, customerDTO);
+        if (updatedCustomer == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(updatedCustomer);
     }
 
-    @DeleteMapping("/customers/{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable String maKhachHang) {
-        // Thực hiện xóa khách hàng với ID được truyền vào , CustomerService là 1 phương thức tự viết bên trong folder Service
-        boolean daXoa = CustomerService.deleteKhachHang(maKhachHang);
-
-        // Nếu khách hàng đã được xóa thành công, trả về phản hồi HTTP 204 No Content
-        if (daXoa) {
+    @DeleteMapping("/{customerId}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable("maKhachHang") String maKhachHang) {
+        boolean deleted = customerService.deleteCustomer(maKhachHang);
+        if (deleted) {
             return ResponseEntity.noContent().build();
-        }
-        // Nếu không, trả về phản hồi HTTP 404 Not Found
-        else {
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
