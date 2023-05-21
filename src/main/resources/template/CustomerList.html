@@ -5,6 +5,21 @@
     <title>Title</title>
 </head>
 <body>
-
+<table>
+    <thead>
+    <tr>
+        <th>Ma khach hang</th>
+        <th>Ten khach hang</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="khachHang : ${customerPage.getContent()}">
+        <td th:text="${khachHang.getMaKhachHang()}"></td>
+        <td th:text="${khachHang.getTenKhachHang()}"></td>
+        <td th:text="${khachHang.getEmail()}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

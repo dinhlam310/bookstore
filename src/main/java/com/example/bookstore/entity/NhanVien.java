@@ -1,12 +1,15 @@
 package com.example.bookstore.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "NhanVien")
 public class NhanVien {
@@ -18,6 +21,8 @@ public class NhanVien {
     @NotBlank(message = "Không được để trống")
     private String MaNhanVien;
 
+    @Column(name = "MatKhau", nullable = false)
+    private String MatKhau;
     @Column(name = "TenNhanVien", nullable = false)
     private String TenNhanVien;
     @Column(name = "NgaySinh", nullable = false)

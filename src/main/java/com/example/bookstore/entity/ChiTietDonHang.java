@@ -1,10 +1,13 @@
 package com.example.bookstore.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "ChiTietDonHang")
 public class ChiTietDonHang {

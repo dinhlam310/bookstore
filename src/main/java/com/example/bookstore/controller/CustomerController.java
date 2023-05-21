@@ -6,32 +6,42 @@ import com.example.bookstore.repository.CustomerRepository;
 import com.example.bookstore.service.CustomerService;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerController {
     @Autowired
     private CustomerRepository customerRepository;
-
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping("/List")
-    public List<KhachHang> getAllCustomers() {
-        return customerRepository.findAll();
+    @GetMapping("/page/{page}")
+    public String getCustomers(@PathVariable int page, Model model, UriComponentsBuilder uriBuilder) {
+        Sort sort = Sort.by("maKhachHang").ascending();
+        PageRequest pageRequest = PageRequest.of(page - 1, 5, sort);
+        Page<KhachHang> customerPage = customerRepository.findAll(pageRequest);
+
+        model.addAttribute("customerPage", customerPage);
+
+        String previousUrl = uriBuilder.path("/customer/page/{page}").buildAndExpand(page - 1).toUriString();
+        model.addAttribute("previousUrl", previousUrl);
+
+        String nextUrl = uriBuilder.path("/customer/page/{page}").buildAndExpand(page + 1).toUriString();
+        model.addAttribute("nextUrl", nextUrl);
+
+        return "CustomerList";
     }
 
-    @PostMapping("/New")
-    public KhachHang createCustomer(@Valid @RequestBody KhachHang khachHang) {
-        return customerRepository.save(khachHang);
-    }
-
-    @GetMapping("/customers/{maKhachHang}")
+    @GetMapping("/{maKhachHang}")
     public ResponseEntity<KhachHang> getCustomerByMaKhachHang(@PathVariable(value = "maKhachHang") String maKhachHang)
             throws ResourceNotFoundException {
         KhachHang khachHang = customerRepository.findByMaKhachHang(maKhachHang)
@@ -39,20 +49,10 @@ public class CustomerController {
         return ResponseEntity.ok().body(khachHang);
     }
 
-//    @PutMapping("/customers/{id}")
-//    public ResponseEntity<KhachHang> updateCustomer(@PathVariable(value = "maKhachHang") String maKhachHang, @Valid @RequestBody KhachHang customerDetails) throws ResourceNotFoundException {
-//        KhachHang khachHang = CustomerRepository.findById(maKhachHang)
-//                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy khách hàng với ID: " + maKhachHang));
-//
-//        // Cập nhật thông tin khách hàng
-//        khachHang.setTenKhachHang(customerDetails.getTenKhachHang());
-//        khachHang.setEmail(customerDetails.getEmail());
-//        khachHang.setSoDienThoai(customerDetails.getSoDienThoai());
-//        // Cập nhật các trường khác tùy theo yêu cầu của bạn
-//
-//        final KhachHang updatedCustomer = customerRepository.save(khachHang);
-//        return ResponseEntity.ok(updatedCustomer);
-//    }
+    @PostMapping("/newCustomer")
+    public KhachHang createCustomer(@Valid @RequestBody KhachHang khachHang) {
+        return customerRepository.save(khachHang);
+    }
 
     @PutMapping("/{customerId}")
     public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable("customerId") String maKhachHang, @RequestBody CustomerDTO customerDTO) {
@@ -64,7 +64,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{customerId}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable("maKhachHang") String maKhachHang) {
+    public ResponseEntity<Void> deleteCustomer(@PathVariable("customerId") String maKhachHang) {
         boolean deleted = customerService.deleteCustomer(maKhachHang);
         if (deleted) {
             return ResponseEntity.noContent().build();

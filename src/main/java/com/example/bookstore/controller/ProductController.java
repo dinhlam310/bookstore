@@ -1,5 +1,6 @@
 package com.example.bookstore.controller;
 
+import com.example.bookstore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ public class ProductController {
     public ResponseEntity<?> getAllProducts() {
         // lấy danh sách sản phẩm
         // trả về danh sách sản phẩm
+        return null;
     }
 
     @PostMapping("/")

@@ -1,35 +1,17 @@
 package com.example.bookstore.service;
 
-import com.example.bookstore.DAO.CustomerDAO;
 import com.example.bookstore.DTO.CustomerDTO;
 import com.example.bookstore.entity.KhachHang;
 import com.example.bookstore.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CustomerService {
-
-    @Autowired
-    private static CustomerDAO CustomerDAO;
-
     @Autowired
     private CustomerRepository customerRepository;
-
-    public List<KhachHang> getAllKhachHang() {
-        return CustomerDAO.getAllKhachHang();
-    }
-
-    public KhachHang getKhachHangById(Long id) {
-        return CustomerDAO.getKhachHangById(id);
-    }
-
-    public void saveOrUpdateKhachHang(KhachHang khachHang) {
-        CustomerDAO.saveOrUpdateKhachHang(khachHang);
-    }
 
 //    public static void deleteKhachHang(String maKhachHang) {
 //        CustomerDAO.deleteKhachHang(maKhachHang);
@@ -59,14 +41,14 @@ public class CustomerService {
         Optional<KhachHang> customerOptional = customerRepository.findById(maKhachHang);
         if (customerOptional.isPresent()) {
             KhachHang khachHang = customerOptional.get();
-            // cập nhật thông tin của khách hàng từ customerDTO
+
             khachHang.setTenKhachHang(customerDTO.getTenKhachHang());
             khachHang.setEmail(customerDTO.getEmail());
             khachHang.setSoDienThoai(customerDTO.getSoDienThoai());
             khachHang.setNgaySinh(customerDTO.getNgaySinh());
-            // lưu thay đổi vào cơ sở dữ liệu
+
             customerRepository.save(khachHang);
-            // trả về thông tin của khách hàng sau khi cập nhật
+
             return convertToDTO(khachHang);
         } else {
             return null;
