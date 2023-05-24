@@ -1,5 +1,6 @@
 package com.example.bookstore.controller;
 
+import com.example.bookstore.repository.ProductRepository;
 import com.example.bookstore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,8 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
-
+    @Autowired
+    private ProductRepository productRepository;
     @Autowired
     private ProductService productService;
 

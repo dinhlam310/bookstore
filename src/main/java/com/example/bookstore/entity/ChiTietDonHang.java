@@ -22,15 +22,8 @@ public class ChiTietDonHang {
 
     @ManyToOne
     @JoinColumn(name = "ma_san_pham")
-    private SanPhamSach sanPhamSach;
+    private SanPham sanPham;
 
-    @ManyToOne
-    @JoinColumn(name = "ma_san_pham")
-    private SanPhamDoChoi sanPhamDoChoi;
-
-    @ManyToOne
-    @JoinColumn(name = "ma_san_pham")
-    private SanPhamDungCu sanPhamDungCu;
 
     @Column(name = "SoLuong", nullable = false)
     private int SoLuong;
