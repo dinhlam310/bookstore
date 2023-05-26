@@ -13,5 +13,9 @@ public interface StaffDAO {
 //
 //    void saveOrUpdateNhanVien(NhanVien nhanVien);
 //
-//    NhanVien getNhanVienById(String maNhanVien);
+    NhanVien getNhanVienById(String maNhanVien);
+
+    List<String> getRoleNames(String RoleName);
+
+    List<String> getRoleNames(Long userId);
 }

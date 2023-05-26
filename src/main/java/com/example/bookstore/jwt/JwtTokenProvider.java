@@ -10,8 +10,8 @@ import java.util.Date;
 @Component
 @Slf4j
 public class JwtTokenProvider {
-    private final String JWT_SECRET = "lodaaaaaa";
-    private final long JWT_EXPIRATION = 604800000L;
+    private final String JWT_SECRET = "dinhlam";
+    private final long JWT_EXPIRATION = 604800000L; // tương ứng thời gian hết hạn trong milisec = 1 tuần
 
     public String generateToken(CustomUserDetails userDetails) {
         // Lấy thông tin user

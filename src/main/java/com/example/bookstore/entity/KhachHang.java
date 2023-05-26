@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -21,10 +22,6 @@ public class KhachHang {
     @NotBlank(message = "Không được để trống")
     private String MaKhachHang;
 
-    @ManyToOne
-    @JoinColumn(name = "MaLoai", referencedColumnName = "MaLoai")
-    private LoaiKhachHang loaiKhachHang;
-
     @Column(name = "TenKhachHang", nullable = false)
     private String TenKhachHang;
     @Column(name = "Email", nullable = false)
@@ -35,4 +32,10 @@ public class KhachHang {
     private String SoDienThoai;
     @Column(name = "NgaySinh", nullable = false)
     private java.sql.Date NgaySinh;
+
+    @Column(name = "MaLoai", nullable = false)
+    private String LoaiKhachHang;
+
+    @Column(name = "TongChiTieu", nullable = false)
+    private int TongChiTieu;
 }

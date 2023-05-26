@@ -32,10 +32,10 @@ public class CustomerController {
 
         model.addAttribute("customerPage", customerPage);
 
-        String previousUrl = uriBuilder.path("/customer/page/{page}").buildAndExpand(page - 1).toUriString();
+        String previousUrl = uriBuilder.path("/page/{page}").buildAndExpand(page - 1).toUriString();
         model.addAttribute("previousUrl", previousUrl);
 
-        String nextUrl = uriBuilder.path("/customer/page/{page}").buildAndExpand(page + 1).toUriString();
+        String nextUrl = uriBuilder.path("/page/{page}").buildAndExpand(page + 1).toUriString();
         model.addAttribute("nextUrl", nextUrl);
 
         return "CustomerList";

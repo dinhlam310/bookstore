@@ -18,10 +18,10 @@ public class ChiTietDonHang {
 
     @ManyToOne
     @JoinColumn(name = "MaDonHang")
-    private DonHang MaDonHang;
+    private DonHang donHang;
 
     @ManyToOne
-    @JoinColumn(name = "ma_san_pham")
+    @JoinColumn(name = "MaSP")
     private SanPham sanPham;
 
 

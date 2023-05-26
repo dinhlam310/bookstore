@@ -35,4 +35,10 @@ public class NhanVien {
     private String Email;
     @Column(name = "DiaChi", nullable = false)
     private String DiaChi;
+
+    @Column(name = "Encryted_Password", length = 128, nullable = false)
+    private String encrytedPassword;
+
+    @Column(name = "Role_Name", length = 30, nullable = false)
+    private String roleName;
 }
