@@ -18,12 +18,6 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 //    @Autowired
-//    private AppUserDAO appUserDAO;
-//
-//    @Autowired
-//    private AppRoleDAO appRoleDAO;
-
-    @Autowired
     private StaffDAO staffDAO;
 
     @Override
@@ -40,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         // Khi đã có user rồi thì mình query xem user đó có những quyền gì (Admin hay User)
         // [ROLE_USER, ROLE_ADMIN,..]
-        List<String> roleNames = this.staffDAO.getRoleNames(nhanVien.getMaNhanVien());
+        List<String> roleNames = this.staffDAO.getRoleNames(nhanVien.getRoleName());
 
         // Dựa vào list quyền trả về mình tạo đối tượng GrantedAuthority  của spring cho quyền đó
         List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
@@ -55,10 +49,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //Cuối cùng mình tạo đối tượng UserDetails của Spring và mình cung cấp cá thông số như tên , password và quyền
         // Đối tượng userDetails sẽ chứa đựng các thông tin cần thiết về user từ đó giúp Spring Security quản lý được phân quyền như ta đã
         // cấu hình trong bước 4 method configure
-        UserDetails userDetails = (UserDetails) new User(nhanVien.getTenNhanVien(),
-                nhanVien.getEncrytedPassword(), grantList);
 
-        return userDetails;
+        return new User(nhanVien.getTenNhanVien(),
+                nhanVien.getEncrytedPassword(), grantList);
     }
 
 }

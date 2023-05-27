@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public abstract class StaffDAOImpl implements StaffDAO{
 //    @Autowired
-//    private JdbcTemplate jdbcTemplate;
+//    private JdbcTemplate;
 //    @Override
 //    public void themNhanVien(NhanVien nhanVien) {
 //        String sql = "INSERT INTO khach_hang (ho_ten, email, so_dien_thoai) VALUES (?, ?, ?)";
@@ -39,13 +39,13 @@ public abstract class StaffDAOImpl implements StaffDAO{
     @Autowired
     private EntityManager entityManager;
 
-    @Override
-    public List<String> getRoleNames(Long userId) {
-        String sql = "Select ur.nhanVien.roleName from " + UserRole.class.getName() + " ur " //
-                + " where ur.appUser.userId = :userId ";
-
-        Query query = this.entityManager.createQuery(sql, String.class);
-        query.setParameter("userId", userId);
-        return query.getResultList();
-    }
+//    @Override
+//    public List<String> getRoleNames(Long userId) {
+//        String sql = "Select ur.nhanVien.roleName from " + UserRole.class.getName() + " ur " //
+//                + " where ur.appUser.userId = :userId ";
+//
+//        Query query = this.entityManager.createQuery(sql, String.class);
+//        query.setParameter("userId", userId);
+//        return query.getResultList();
+//    }
 }

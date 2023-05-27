@@ -1,9 +1,11 @@
 package com.example.bookstore.DAO;
 
 import com.example.bookstore.entity.NhanVien;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface StaffDAO {
 //    public void themNhanVien(NhanVien nhanVien);
 //    public NhanVien layNhanVien(String maNhanVien);
@@ -15,7 +17,7 @@ public interface StaffDAO {
 //
     NhanVien getNhanVienById(String maNhanVien);
 
-    List<String> getRoleNames(String RoleName);
+    List<String> getRoleNames(String roleName);
 
-    List<String> getRoleNames(Long userId);
+//    List<String> getRoleNames(Long userId);
 }

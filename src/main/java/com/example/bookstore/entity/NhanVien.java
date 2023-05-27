@@ -40,5 +40,5 @@ public class NhanVien {
     private String encrytedPassword;
 
     @Column(name = "Role_Name", length = 30, nullable = false)
-    private String roleName;
+    private String RoleName;
 }
