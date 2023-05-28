@@ -10,14 +10,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
 import com.example.bookstore.util.WebUtils;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
 
-@RestController
-@RequestMapping("/api/auth")
+@Controller
+//@RequestMapping("/api/auth")
 public class AuthController {
 
 //    @Autowired
@@ -121,7 +122,7 @@ public class AuthController {
     public String welcomePage(Model model) {
         model.addAttribute("title", "Welcome");
         model.addAttribute("message", "This is welcome page!");
-        return "welcomePage";
+        return "loginPage";
     }
 
     //Đây là trang Admin

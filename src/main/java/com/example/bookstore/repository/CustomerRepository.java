@@ -14,8 +14,10 @@ public interface CustomerRepository extends JpaRepository<KhachHang, String> {
 
     KhachHang save(KhachHang khachHang);
 
+//    Optional<KhachHang> findByMaKhachHang(String MaKhachHang);
+
     Optional<KhachHang> findByMaKhachHang(String maKhachHang);
-    Optional<KhachHang> findById(String maKhachHang);
+    Optional<KhachHang> findById(String MaKhachHang);
 
      void delete(KhachHang khachHang);
 }

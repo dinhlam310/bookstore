@@ -13,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Service
+@Service("StaffService")
 public class StaffService implements UserDetailsService {
-    @Autowired
+//    @Autowired
     private StaffRepository staffRepository;
 
     @Override

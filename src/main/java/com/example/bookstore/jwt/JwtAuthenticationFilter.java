@@ -3,6 +3,7 @@ package com.example.bookstore.jwt;
 import com.example.bookstore.service.StaffService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +23,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtTokenProvider tokenProvider;
 
     @Autowired
+    @Qualifier("StaffService")
     private StaffService customUserDetailsService;
     @Override
     protected void doFilterInternal(HttpServletRequest request,

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ProductDTO {
-    private String MaSP;
+    private String maSP;
 
     private String TenSP;
 

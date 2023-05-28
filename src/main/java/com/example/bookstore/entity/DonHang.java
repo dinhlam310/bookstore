@@ -16,7 +16,7 @@ public class DonHang {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaDonHang", nullable = false)
-    private String MaDonHang;
+    private String maDonHang;
 
     @ManyToOne
     @JoinColumn(name = "MaNhanVien", referencedColumnName = "MaNhanVien")

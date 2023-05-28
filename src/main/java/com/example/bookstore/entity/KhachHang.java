@@ -20,7 +20,7 @@ public class KhachHang {
     @Pattern(regexp = "^KH-\\d{4}$") // có dạng là KH-XXXX
     @Column(name = "MaKhachHang", nullable = false)
     @NotBlank(message = "Không được để trống")
-    private String MaKhachHang;
+    private String maKhachHang;
 
     @Column(name = "TenKhachHang", nullable = false)
     private String TenKhachHang;

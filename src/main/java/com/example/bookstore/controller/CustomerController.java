@@ -26,7 +26,7 @@ public class CustomerController {
 
     @GetMapping("/page/{page}")
     public String getCustomers(@PathVariable int page, Model model, UriComponentsBuilder uriBuilder) {
-        Sort sort = Sort.by("maKhachHang").ascending();
+        Sort sort = Sort.by("MaKhachHang").ascending();
         PageRequest pageRequest = PageRequest.of(page - 1, 5, sort);
         Page<KhachHang> customerPage = customerRepository.findAll(pageRequest);
 
@@ -41,11 +41,11 @@ public class CustomerController {
         return "CustomerList";
     }
 
-    @GetMapping("/{maKhachHang}")
-    public ResponseEntity<KhachHang> getCustomerByMaKhachHang(@PathVariable(value = "maKhachHang") String maKhachHang)
+    @GetMapping("/{MaKhachHang}")
+    public ResponseEntity<KhachHang> getCustomerByMaKhachHang(@PathVariable(value = "MaKhachHang") String MaKhachHang)
             throws ResourceNotFoundException {
-        KhachHang khachHang = customerRepository.findByMaKhachHang(maKhachHang)
-                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy khách hàng với mã khách hàng: " + maKhachHang));
+        KhachHang khachHang = customerRepository.findByMaKhachHang(MaKhachHang)
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy khách hàng với mã khách hàng: " + MaKhachHang));
         return ResponseEntity.ok().body(khachHang);
     }
 
@@ -55,8 +55,8 @@ public class CustomerController {
     }
 
     @PutMapping("/{customerId}")
-    public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable("customerId") String maKhachHang, @RequestBody CustomerDTO customerDTO) {
-        CustomerDTO updatedCustomer = customerService.updateCustomer(maKhachHang, customerDTO);
+    public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable("customerId") String MaKhachHang, @RequestBody CustomerDTO customerDTO) {
+        CustomerDTO updatedCustomer = customerService.updateCustomer(MaKhachHang, customerDTO);
         if (updatedCustomer == null) {
             return ResponseEntity.notFound().build();
         }
@@ -64,8 +64,8 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{customerId}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable("customerId") String maKhachHang) {
-        boolean deleted = customerService.deleteCustomer(maKhachHang);
+    public ResponseEntity<Void> deleteCustomer(@PathVariable("customerId") String MaKhachHang) {
+        boolean deleted = customerService.deleteCustomer(MaKhachHang);
         if (deleted) {
             return ResponseEntity.noContent().build();
         } else {

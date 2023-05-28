@@ -13,7 +13,7 @@ public interface OrderRepository extends JpaRepository<DonHang, String> {
 
     Page<DonHang> findAll(Pageable pageable);
 
-    Optional<DonHang> findByMaDonHang(String MaDonHang);
-    Optional<DonHang> findById(String MaDonHang);
+    Optional<DonHang> findByMaDonHang(String maDonHang);
+    Optional<DonHang> findById(String maDonHang);
 
 }

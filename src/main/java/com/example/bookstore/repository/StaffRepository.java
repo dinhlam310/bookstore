@@ -14,7 +14,7 @@ public interface StaffRepository extends JpaRepository<NhanVien, String> {
 
     NhanVien save(NhanVien nhanVien);
 
-    Optional<NhanVien> findByTenNhanVien(String TenNhanVien);
+    Optional<NhanVien> findByTenNhanVien(String tenNhanVien);
 
     Optional<NhanVien> findByMaNhanVien(String maNhanVien);
 

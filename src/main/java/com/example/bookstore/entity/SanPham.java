@@ -17,7 +17,7 @@ public class SanPham {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaSP", nullable = false)
     @Pattern(regexp = "^SP-\\d{4}$")
-    private String MaSP;
+    private String maSP;
 
     @Column(name = "TenSP", nullable = false)
     private String TenSP;

@@ -19,12 +19,12 @@ public class NhanVien {
     @Pattern(regexp = "^KH-\\d{4}$")
     @Column(name = "MaNhanVien", nullable = false)
     @NotBlank(message = "Không được để trống")
-    private String MaNhanVien;
+    private String maNhanVien;
 
     @Column(name = "MatKhau", nullable = false)
     private String MatKhau;
     @Column(name = "TenNhanVien", nullable = false)
-    private String TenNhanVien;
+    private String tenNhanVien;
     @Column(name = "NgaySinh", nullable = false)
     private java.sql.Date NgaySinh;
     @Column(name = "SoDienThoai", nullable = false)

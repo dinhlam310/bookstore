@@ -14,8 +14,8 @@ public interface ProductRepository extends JpaRepository<SanPham, String> {
 
     SanPham save(SanPham sanPham);
 
-    Optional<SanPham> findByMaSP(String MaSP);
-    Optional<SanPham> findById(String MaSP);
+    Optional<SanPham> findByMaSP(String maSP);
+    Optional<SanPham> findById(String maSP);
 
     void delete(SanPham sanPham);
 }
