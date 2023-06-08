@@ -2,22 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Đăng nhập</title>
+  <link th:href="@{../css/total.css}" rel="stylesheet" />
 </head>
 <body>
 
 <th:block th:include="/_navigation"></th:block>
 
-<h1>Login</h1>
 
+<h1>Đăng nhập</h1>
+<div class="content">
 <form name='f' action="login" method='POST'>
   <table>
     <tr>
-      <td>User:</td>
+      <td>Tài khoản:</td>
       <td><input type='text' name='username' value=''></td>
     </tr>
     <tr>
-      <td>Password:</td>
+      <td>Mật khẩu:</td>
       <td><input type='password' name='password' /></td>
     </tr>
     <tr>
@@ -25,10 +27,11 @@
       <td><input type="checkbox" name="remember-me" /></td>
     </tr>
     <tr>
-      <td><input name="submit" type="submit" value="submit" /></td>
+      <td><input name="Đăng nhập" type="submit" value="submit" /></td>
     </tr>
   </table>
 </form>
+</div>
 
 </body>
 </html>

@@ -2,7 +2,6 @@ package com.example.bookstore.service;
 
 import com.example.bookstore.DAO.StaffDAO;
 import com.example.bookstore.entity.NhanVien;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

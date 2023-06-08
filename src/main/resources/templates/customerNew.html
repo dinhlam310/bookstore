@@ -2,21 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Tạo khách hàng mới</title>
+    <link th:href="@{../css/total.css}" rel="stylesheet" />
 </head>
 <body>
 
 <form action="/api/customers" method="POST">
-    <label for="tenKhachHang">Tên khách hàng:</label>
-    <input type="text" id="tenKhachHang" name="tenKhachHang" required>
+<!--    <label for="tenKhachHang">Tên khách hàng:</label>-->
+<!--    <input type="text" id="tenKhachHang" name="tenKhachHang" required>-->
 
-    <label for="maKhachHang">Mã khách hàng:</label>
-    <input type="text" id="maKhachHang" name="maKhachHang" required>
+<!--    <label for="maKhachHang">Mã khách hàng:</label>-->
+<!--    <input type="text" id="maKhachHang" name="maKhachHang" required>-->
 
-    <label for="soTienDaChiTra">Số tiền đã chi trả:</label>
-    <input type="number" id="soTienDaChiTra" name="soTienDaChiTra" required>
+<!--    <label for="soTienDaChiTra">Số tiền đã chi trả:</label>-->
+<!--    <input type="number" id="soTienDaChiTra" name="soTienDaChiTra" required>-->
 
-    <button type="submit">Thêm khách hàng</button>
+<!--    <button type="submit">Thêm khách hàng</button>-->
+
+    <div class="container">
+        <div class="content">
+            <h2>khách hàng mới</h2>
+            <div class="infomation">
+                <label for="makh">Mã khách hàng</label>
+                <input id="makh" type="text" required>
+                <label for="tenkh">Tên khách hàng</label>
+                <input id="tenkh" type="text" required>
+                <label for="mailkh">Email</label>
+                <input id="mailkh" type="text" required>
+                <label for="sdtkh">Số điện thoại</label>
+                <input id="sdtkh" type="text" required>
+                <label for="date">Ngày sinh</label>
+                <input id="date" type="date" required>
+            </div>
+            <div class="submit" id="submit">
+                <button type="submit">Submit</button>
+            </div>
+        </div>
+    </div>
 
 </form>
 </body>

@@ -1,9 +1,8 @@
 <link th:href="@{../static/css/_navigation.css}" rel="stylesheet" />
 
-<!--<link th:href="@{../css/Login.css}" rel="stylesheet" type="text/css" />-->
 <link th:href="@{../css/_navigation.css}" rel="stylesheet" />
 
-<div xmlns:th="http://www.thymeleaf.org" style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
+<div xmlns:th="http://www.thymeleaf.org">
 
 <!--    <a th:href="@{/}">Home</a>-->
 
@@ -31,8 +30,8 @@
                 </li>
                 <li>Khách hàng
                     <ul>
-                        <li><a th:href="@{/KhachHang/KhachHang.html}" onclick="openPage('KhachHang.html')">Khách hàng mới</a></li>
-                        <li><a th:href="@{/KhachHang/DanhSachKhachHang.html}" onclick="openPage('DanhSachKhachHang.html')">Danh sách khách hàng</a></li>
+                        <li><a th:href="@{/customerNew.html}" >Khách hàng mới</a></li>
+                        <li><a th:href="@{/customerList.html}" >Danh sách khách hàng</a></li>
                     </ul>
                 </li>
                 <li>Đơn hàng

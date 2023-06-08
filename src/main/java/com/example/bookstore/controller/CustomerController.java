@@ -10,13 +10,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 
-@RestController
+@Controller
 @RequestMapping("/api/customers")
 public class CustomerController {
     @Autowired
@@ -24,7 +25,8 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping("/page/{page}")
+//    @GetMapping("/page/{page}")
+    @RequestMapping(value = "/page/{page}", method = RequestMethod.GET)
     public String getCustomers(@PathVariable int page, Model model, UriComponentsBuilder uriBuilder) {
         Sort sort = Sort.by("MaKhachHang").ascending();
         PageRequest pageRequest = PageRequest.of(page - 1, 5, sort);
@@ -38,7 +40,7 @@ public class CustomerController {
         String nextUrl = uriBuilder.path("/page/{page}").buildAndExpand(page + 1).toUriString();
         model.addAttribute("nextUrl", nextUrl);
 
-        return "CustomerList";
+        return "customerList";
     }
 
     @GetMapping("/{MaKhachHang}")

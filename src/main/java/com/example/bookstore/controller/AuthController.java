@@ -3,6 +3,7 @@ package com.example.bookstore.controller;
 import com.example.bookstore.details.CustomUserDetails;
 import com.example.bookstore.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,11 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
-//@RequestMapping("/api/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
 //    @Autowired
@@ -114,7 +116,6 @@ public class AuthController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage(Model model) {
-
         return "loginPage";
     }
 
@@ -122,7 +123,7 @@ public class AuthController {
     public String welcomePage(Model model) {
         model.addAttribute("title", "Welcome");
         model.addAttribute("message", "This is welcome page!");
-        return "loginPage";
+        return "index";
     }
 
     //Đây là trang Admin
@@ -136,6 +137,22 @@ public class AuthController {
 
         return "adminPage";
     }
+
+//    @RequestMapping("/error")
+//    public String handleError(HttpServletRequest request) {
+//        // Lấy mã lỗi HTTP từ request
+//        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
+//        if (statusCode != null) {
+//            // Trả về trang lỗi tương ứng với mã lỗi HTTP
+//            if (statusCode == HttpStatus.NOT_FOUND.value()) {
+//                return "error-404";
+//            } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+//                return "error-500";
+//            }
+//        }
+//        // Nếu không phải mã lỗi HTTP đã biết, trả về trang lỗi mặc định
+//        return "error";
+//    }
 }
 
 
