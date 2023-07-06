@@ -3,16 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Đăng nhập</title>
-  <link th:href="@{../css/total.css}" rel="stylesheet" />
+  <link th:href="@{/css/total.css}" rel="stylesheet" />
+
+  <style>
+    td{
+      padding: 10px;
+    }
+  </style>
 </head>
 <body>
 
 <th:block th:include="/_navigation"></th:block>
 
 
-<h1>Đăng nhập</h1>
+
 <div class="content">
-<form name='f' action="login" method='POST'>
+  <div class="formsignin">
+  <h1>Đăng nhập</h1>
+<form name='formSignIn' th:action="@{/j_spring_security_check}" method='POST'>
   <table>
     <tr>
       <td>Tài khoản:</td>
@@ -31,6 +39,7 @@
     </tr>
   </table>
 </form>
+  </div>
 </div>
 
 </body>

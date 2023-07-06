@@ -14,7 +14,7 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     public boolean deleteCustomer(String maKhachHang) {
-        Optional<KhachHang> customerOptional = customerRepository.findById(maKhachHang);
+        Optional<KhachHang> customerOptional = customerRepository.findByMaKhachHang(maKhachHang);
         if (customerOptional.isPresent()) {
             customerRepository.deleteById(maKhachHang);
             return true;
@@ -23,27 +23,48 @@ public class CustomerService {
         }
     }
 
-    public CustomerDTO updateCustomer(String maKhachHang, CustomerDTO customerDTO) {
-        Optional<KhachHang> customerOptional = customerRepository.findById(maKhachHang);
+    public Optional<CustomerDTO>  updateCustomer(String maKhachHang, CustomerDTO customerDTO) {
+        Optional<KhachHang> customerOptional = customerRepository.findByMaKhachHang(maKhachHang);
         if (customerOptional.isPresent()) {
             KhachHang khachHang = customerOptional.get();
             khachHang.setTenKhachHang(customerDTO.getTenKhachHang());
             khachHang.setEmail(customerDTO.getEmail());
             khachHang.setSoDienThoai(customerDTO.getSoDienThoai());
+            khachHang.setNgaySinh(customerDTO.getNgaySinh());
+            customerRepository.save(khachHang);
+
+            return Optional.of(convertToDTO(khachHang));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    public CustomerDTO createCustomer( CustomerDTO customerDTO) {
+            KhachHang khachHang = new KhachHang();
+//            KhachHang khachHang = customerOptional.get();
+            khachHang.setMaKhachHang(customerDTO.getMaKhachHang());
+            khachHang.setTenKhachHang(customerDTO.getTenKhachHang());
+            khachHang.setEmail(customerDTO.getEmail());
+            khachHang.setSoDienThoai(customerDTO.getSoDienThoai());
+            khachHang.setNgaySinh(customerDTO.getNgaySinh());
+            khachHang.setTongChiTieu(customerDTO.getTongChiTieu());
+            khachHang.setLoaiKhachHang(customerDTO.getLoaiKhachHang());
 
             customerRepository.save(khachHang);
 
             return convertToDTO(khachHang);
-        } else {
-            return null;
-        }
+
     }
 
     private CustomerDTO convertToDTO(KhachHang khachHang) {
         CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setMaKhachHang(khachHang.getMaKhachHang());
         customerDTO.setTenKhachHang(khachHang.getTenKhachHang());
         customerDTO.setEmail(khachHang.getEmail());
         customerDTO.setSoDienThoai(khachHang.getSoDienThoai());
+        customerDTO.setNgaySinh(khachHang.getNgaySinh());
+        customerDTO.setTongChiTieu(khachHang.getTongChiTieu());
+        customerDTO.setLoaiKhachHang(khachHang.getLoaiKhachHang());
         return customerDTO;
     }
 
@@ -57,7 +78,7 @@ public class CustomerService {
 
     // Hàm xử lý khi khách hàng mua hàng
     public void updateLevelCustomer(String maKhachHang, int amount) {
-        KhachHang khachHang = customerRepository.findById(maKhachHang).orElseThrow(() -> new RuntimeException("Không tìm thấy khách hàng"));
+        KhachHang khachHang = customerRepository.findByMaKhachHang(maKhachHang).orElseThrow(() -> new RuntimeException("Không tìm thấy khách hàng"));
 
         // Cập nhật tổng tiền các đợt mua hàng
         khachHang.setTongChiTieu(khachHang.getTongChiTieu() + amount);

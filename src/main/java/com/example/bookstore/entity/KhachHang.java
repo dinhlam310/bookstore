@@ -1,41 +1,48 @@
 package com.example.bookstore.entity;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.sql.Date;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "KhachHang")
 public class KhachHang {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Pattern(regexp = "^KH-\\d{4}$") // có dạng là KH-XXXX
+    @Pattern(regexp = "^KH-\\d{4}$")
     @Column(name = "MaKhachHang", nullable = false)
-    @NotBlank(message = "Không được để trống")
+    @JsonProperty("MaKhachHang")
     private String maKhachHang;
 
     @Column(name = "TenKhachHang", nullable = false)
+    @JsonProperty("TenKhachHang")
     private String TenKhachHang;
     @Column(name = "Email", nullable = false)
-    @Pattern(regexp = "[\\w-\\.]+@[\\w-]+\\.[\\w-\\.]+", message = "Email không hợp lệ")
+    @JsonProperty("Email")
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@gmail\\.com$", message = "Email không hợp lệ")
     private String Email;
     @Column(name = "SoDienThoai", nullable = false)
-    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@gmail\\.com$", message = "Email không hợp lệ")
+    @JsonProperty("SoDienThoai")
+    @Pattern(regexp = "^(090|091|849[01])[0-9]{7}$", message = "So dien thoai không hợp lệ")
     private String SoDienThoai;
     @Column(name = "NgaySinh", nullable = false)
+    @JsonProperty("NgaySinh")
     private java.sql.Date NgaySinh;
 
     @Column(name = "MaLoai", nullable = false)
+    @JsonProperty("LoaiKhachHang")
     private String LoaiKhachHang;
 
     @Column(name = "TongChiTieu", nullable = false)
+    @JsonProperty("TongChiTieu")
     private int TongChiTieu;
+
 }

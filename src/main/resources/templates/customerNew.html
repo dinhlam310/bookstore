@@ -3,43 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <title>Tạo khách hàng mới</title>
-    <link th:href="@{../css/total.css}" rel="stylesheet" />
+    <link th:href="@{/css/total.css}" rel="stylesheet" />
 </head>
+
 <body>
 
-<form action="/api/customers" method="POST">
-<!--    <label for="tenKhachHang">Tên khách hàng:</label>-->
-<!--    <input type="text" id="tenKhachHang" name="tenKhachHang" required>-->
+<th:block th:include="/_navigation"></th:block>
+<div class="content">
+<form action="/api/customers/newCustomer" id="customerForm" method="POST">
 
-<!--    <label for="maKhachHang">Mã khách hàng:</label>-->
-<!--    <input type="text" id="maKhachHang" name="maKhachHang" required>-->
-
-<!--    <label for="soTienDaChiTra">Số tiền đã chi trả:</label>-->
-<!--    <input type="number" id="soTienDaChiTra" name="soTienDaChiTra" required>-->
-
-<!--    <button type="submit">Thêm khách hàng</button>-->
-
-    <div class="container">
-        <div class="content">
+            <div class="form-new-customer">
             <h2>khách hàng mới</h2>
             <div class="infomation">
-                <label for="makh">Mã khách hàng</label>
-                <input id="makh" type="text" required>
-                <label for="tenkh">Tên khách hàng</label>
-                <input id="tenkh" type="text" required>
-                <label for="mailkh">Email</label>
-                <input id="mailkh" type="text" required>
-                <label for="sdtkh">Số điện thoại</label>
-                <input id="sdtkh" type="text" required>
-                <label for="date">Ngày sinh</label>
-                <input id="date" type="date" required>
+                <div class="form-group">
+                    <label for="MaKhachHang">Mã khách hàng</label>
+                    <input id="MaKhachHang" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="TenKhachHang">Tên khách hàng</label>
+                    <input id="TenKhachHang" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input id="Email" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="SoDienThoai">Số điện thoại</label>
+                    <input id="SoDienThoai" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="LoaiKhachHang">Loại khách hàng</label>
+                    <input id="LoaiKhachHang" type="text" required>
+
+                </div>
+                <div class="form-group">
+                    <label for="TongChiTieu">Tổng chi tiêu</label>
+                    <input id="TongChiTieu" type="number" required>
+
+                </div>
+                <div class="form-group">
+                    <label for="NgaySinh">Ngày sinh</label>
+                    <input id="NgaySinh" type="date" required>
+                </div>
             </div>
             <div class="submit" id="submit">
-                <button type="submit">Submit</button>
+                <button type="submit" onclick="createCustomer()">Submit</button>
             </div>
-        </div>
-    </div>
-
+            </div>
 </form>
+</div>
+<script>
+    function createCustomer() {
+                const customerForm = document.querySelector('#customerForm');
+                customerForm.addEventListener('submit', (event) => {
+                    event.preventDefault();
+
+                const MaKhachHang = document.querySelector('#MaKhachHang').value;
+                const TenKhachHang = document.querySelector('#TenKhachHang').value;
+                const Email = document.querySelector('#Email').value;
+                const SoDienThoai = document.querySelector('#SoDienThoai').value;
+                const LoaiKhachHang = document.querySelector('#LoaiKhachHang').value;
+                const TongChiTieu = document.querySelector('#TongChiTieu').value;
+                const NgaySinh = document.querySelector('#NgaySinh').value;
+
+                const customerData = {
+                    MaKhachHang: MaKhachHang,
+                    TenKhachHang: TenKhachHang,
+                    Email: Email,
+                    SoDienThoai: SoDienThoai,
+                    LoaiKhachHang: LoaiKhachHang,
+                    TongChiTieu: TongChiTieu,
+                    NgaySinh: NgaySinh
+                };
+
+                fetch('/api/customers/newCustomer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(customerData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        alert('Khách hàng đã được tạo thành công!');
+                        document.querySelector('#customerForm').reset();
+
+                    })
+                    .catch(error => {
+                        console.error("Ten toi la Nguyen Dinh Lam dep trai "+ error);
+                        alert('Có lỗi xảy ra khi tạo khách hàng mới!');
+                        document.querySelector('#customerForm').reset();
+                    });
+        });
+    }
+</script>
 </body>
 </html>

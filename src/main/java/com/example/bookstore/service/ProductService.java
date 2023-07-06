@@ -16,8 +16,17 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    public SanPham getProductByMaSP(String maSP) {
+        Optional<SanPham> optionalProduct = productRepository.findByMaSP(maSP);
+        if (optionalProduct.isPresent()) {
+            return optionalProduct.get();
+        } else {
+            return null;
+        }
+    }
+
     public boolean deleteProduct(String MaSP) {
-        Optional<SanPham> productOptional = productRepository.findById(MaSP);
+        Optional<SanPham> productOptional = productRepository.findByMaSP(MaSP);
         if (productOptional.isPresent()) {
             productRepository.deleteById(MaSP);
             return true;
@@ -27,7 +36,7 @@ public class ProductService {
     }
 
     public ProductDTO updateProduct(String MaSP, ProductDTO productDTO) {
-        Optional<SanPham> productOptional = productRepository.findById(MaSP);
+        Optional<SanPham> productOptional = productRepository.findByMaSP(MaSP);
         if (productOptional.isPresent()) {
             SanPham sanPham = productOptional.get();
 

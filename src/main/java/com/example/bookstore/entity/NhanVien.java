@@ -36,7 +36,7 @@ public class NhanVien {
     @Column(name = "DiaChi", nullable = false)
     private String DiaChi;
 
-    @Column(name = "Encryted_Password", length = 128, nullable = false)
+    @Column(name = "Encryted_Password", length = 128)
     private String encrytedPassword;
 
     @Column(name = "Role_Name", length = 30, nullable = false)

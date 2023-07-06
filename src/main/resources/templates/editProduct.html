@@ -2,9 +2,149 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Chỉnh sửa sản phẩm</title>
+  <link th:href="@{/css/total.css}" rel="stylesheet" />
 </head>
 <body>
-$END$
+<th:block th:include="/_navigation"></th:block>
+<div class="content">
+
+    <form id="formSua" method="get" action="/api/products/editProduct">
+        <div class="form-group">
+            <label for="MaSP">Mã sản phẩm</label>
+            <input id="MaSP" type="text" name="MaSP" required>
+        </div>
+
+        <div th:if="${not #strings.isEmpty(error)}" role="alert">
+            <p th:text="${error}"></p>
+        </div>
+
+        <div th:if="${not #strings.isEmpty(product)}" role="alert">
+            <p>Mã sản phẩm:</p>
+            <input type="text" name="MaSP" th:value="${product.MaSP}" readonly>
+            <p>Tên sản phẩm:</p>
+            <input type="text" name="TenSP" th:value="${product.tenSP}">
+            <p>Số lượng:</p>
+            <input type="text" name="SoLuong" th:value="${product.soLuong}">
+            <p>Đơn giá:</p>
+            <input type="text" name="DonGia" th:value="${product.donGia}">
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Kiểm tra</button>
+        </div>
+
+        <div th:if="${not #strings.isEmpty(product)}">
+            <div class="form-group">
+                <button id="btnSua" type="button" form="formSua" >Sửa</button>
+            </div>
+            <div class="form-group">
+                <button id="btnXoa" type="button" form="formXoa" >Xóa</button>
+            </div>
+        </div>
+        <script>
+            document.getElementById("formSua").addEventListener("submit", function(event) {
+                event.preventDefault();
+                var maSP = document.getElementById("MaSP").value;
+                var url = "http://localhost:8080/api/products/editProduct/" + maSP;
+
+                window.location.href = url;
+            });
+        </script>
+    </form>
+
+    <form id="formXoa" method="delete" action="/api/products/editProduct/" style="display: none;">
+        <input id="MaSPXoa" type="hidden" name="MaSP">
+        <div class="form-group">
+            <p>Bạn có chắc chắn muốn xóa sản phẩm này?</p>
+        </div>
+        <div class="form-group">
+            <button id="btnXacNhanXoa" type="submit" form="formXoa">Xóa</button>
+            <button id="btnHuyXoa" type="button">Hủy</button>
+        </div>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("#btnSua").click(function() {
+                var maSP = $("#MaSP").val();
+                var tenSP = $("#TenSP").val();
+                var soLuong = $("#SoLuong").val();
+                var donGia = $("#DonGia").val();
+
+                // Gửi request lên server để sửa thông tin sản phẩm
+                $.ajax({
+                    url: "http://localhost:8080/api/products/editProduct/" + maSP,
+                    type: "PUT",
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: {
+                        MaSP: maSP,
+                        TenSP: tenSP,
+                        SoLuong: soLuong,
+                        DonGia: donGia
+                    },
+                    success: function(result) {
+                        // Xử lý kết quả trả về từ server
+                        if (result.success) {
+                            alert("Sửa sản phẩm thành công!");
+                        } else {
+                            alert("Sửa sản phẩm không thành công!");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert("Có lỗi xảy ra trong việc sửa: " + error);
+                    }
+                });
+            });
+
+            $("#btnXoa").click(function() {
+                var maSP = $("#MaSP").val();
+
+                // Hiển thị form xác nhận xóa sản phẩm
+                $("#formXoa").show();
+                $("#MaSPXoa").val(maSP);
+            });
+
+            $("#btnHuyXoa").click(function() {
+                // Ẩn form xác nhận xóa sản phẩm
+                $("#formXoa").hide();
+                $("#MaSPXoa").val("");
+            });
+
+
+            $("#btnXacNhanXoa").click(function() {
+                var maSP = $("#MaSPXoa").val();
+
+                // Gửi request lên server để xóa sản phẩm
+                $.ajax({
+                    url: "http://localhost:8080/api/products/editProduct/" + maSP,
+                    type: "DELETE",
+                    data: {
+                        MaSP: maSP
+                    },
+                    success: function(result) {
+                        // Xử lý kết quả trả về từ server
+                        if (result.success) {
+                            alert("Xóa sản phẩm thành công!");
+                        } else {
+                            alert("Xóa sản phẩm không thành công!");
+                        }
+
+                        // Ẩn form xác nhận xóa sản phẩm
+                        $("#formXoa").hide();
+                        $("#MaSPXoa").val("");
+                    },
+                    error: function(xhr, status, error) {
+                        alert("Có lỗi xảy ra: " + error);
+                    }
+                });
+            });
+        });
+    </script>
+</div>
+
 </body>
 </html>

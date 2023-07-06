@@ -1,6 +1,7 @@
 package com.example.bookstore.controller;
 
 import com.example.bookstore.DTO.StaffDTO;
+import com.example.bookstore.entity.KhachHang;
 import com.example.bookstore.entity.NhanVien;
 import com.example.bookstore.repository.StaffRepository;
 import com.example.bookstore.service.StaffService;
@@ -10,13 +11,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 
-@RestController
+@Controller
 @RequestMapping("/api/staffs")
 public class StaffController {
     @Autowired
@@ -24,28 +26,29 @@ public class StaffController {
     @Autowired
     private StaffService staffService;
 
-    @GetMapping("/page/{page}")
-    public String getStaffs(@PathVariable int page, Model model, UriComponentsBuilder uriBuilder) {
-        Sort sort = Sort.by("maNhanVien").ascending();
-        PageRequest pageRequest = PageRequest.of(page - 1, 5, sort);
+    @RequestMapping(value = "staffList/page", method = RequestMethod.GET)
+    public String getStaffs(@RequestParam(defaultValue = "0") int page, Model model, UriComponentsBuilder uriBuilder) {
+        Sort sort = Sort.by("MaNhanVien").ascending();
+        PageRequest pageRequest = PageRequest.of(page, 5, sort);
         Page<NhanVien> staffPage = staffRepository.findAll(pageRequest);
 
         model.addAttribute("staffPage", staffPage);
 
-        String previousUrl = uriBuilder.path("/page/{page}").buildAndExpand(page - 1).toUriString();
+        String previousUrl = uriBuilder.path("/staffList/page").queryParam("page", page - 1).build().toUriString();
         model.addAttribute("previousUrl", previousUrl);
 
-        String nextUrl = uriBuilder.path("/page/{page}").buildAndExpand(page + 1).toUriString();
+        String nextUrl = uriBuilder.path("/staffList/page").queryParam("page", page + 1).build().toUriString();
         model.addAttribute("nextUrl", nextUrl);
 
-        return "StaffList";
+        return "staffList";
+
     }
 
     @GetMapping("/{maNhanVien}")
     public ResponseEntity<NhanVien> getStaffByMaNhanVien(@PathVariable(value = "maNhanVien") String maNhanVien)
             throws ResourceNotFoundException {
         NhanVien nhanVien = staffRepository.findByMaNhanVien(maNhanVien)
-                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy khách hàng với mã khách hàng: " + maNhanVien));
+                .orElseThrow(() -> new ResourceNotFoundException("Không thể tìm thấy nhân viên với mã nhân viên: " + maNhanVien));
         return ResponseEntity.ok().body(nhanVien);
     }
 

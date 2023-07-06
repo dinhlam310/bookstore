@@ -3,24 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <title>Danh sách khách hàng</title>
-    <link th:href="@{../css/total.css}" rel="stylesheet" />
+    <link th:href="@{/css/total.css}" rel="stylesheet" />
+
+    <style>
+        table, th, td, tr {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        .timkiemkhachhang{
+            border: 1px solid black;
+            padding: 10px;
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
+
+<th:block th:include="/_navigation"></th:block>
+<div class="content">
+
+<h1>Danh sách khách hàng</h1>
+
 <table>
     <thead>
     <tr>
-        <th>Ma khach hang</th>
-        <th>Ten khach hang</th>
+        <th>Mã khách hàng</th>
+        <th>Họ và tên</th>
+        <th>Loại khách hàng</th>
+        <th>Tổng chi tiêu</th>
         <th>Email</th>
+        <th>Số điện thoại</th>
+        <th>Ngày sinh</th>
+        <th>Tùy chọn</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="khachHang : ${customerPage.getContent()}">
         <td th:text="${khachHang.getMaKhachHang()}"></td>
         <td th:text="${khachHang.getTenKhachHang()}"></td>
+        <td th:text="${khachHang.getLoaiKhachHang()}"></td>
+        <td th:text="${khachHang.getTongChiTieu()}"></td>
         <td th:text="${khachHang.getEmail()}"></td>
+        <td th:text="${khachHang.getSoDienThoai()}"></td>
+        <td th:text="${khachHang.getNgaySinh()}"></td>
+        <td>
+            <button type="button" onclick="editCustomer(${khachHang.getMaKhachHang()})">Sửa</button>
+            <button type="button" onclick="deleteCustomer(${khachHang.getMaKhachHang()})">Xóa</button>
+        </td>
     </tr>
     </tbody>
 </table>
+
+<div>
+    <a th:if="${customerPage.hasPrevious()}" th:href="@{/api/customers/customerList/page(page=${customerPage.number - 1})}">
+        Previous
+    </a>
+    <span th:unless="${customerPage.hasPrevious()}">Previous</span>
+
+    <span th:text="${customerPage.number + 1}"></span>/<span th:text="${customerPage.totalPages}"></span>
+
+    <a th:if="${customerPage.hasNext()}" th:href="@{/api/customers/customerList/page(page=${customerPage.number + 1})}">
+        Next
+    </a>
+    <span th:unless="${customerPage.hasNext()}">Next</span>
+
+</div>
+
+    <div class="timkiemkhachhang">
+        <label for="maKhachHang"></label><input type="text" id="maKhachHang" placeholder="Nhập mã khách hàng">
+        <button id="btnTimKiem">Tìm kiếm</button>
+
+        <div id="ketQua"></div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#btnTimKiem').click(function() {
+                    var maKhachHang = $('#maKhachHang').val();
+                    $.ajax({
+                        url: '/api/customers/' + maKhachHang,
+                        type: 'GET',
+                        success: function(data) {
+                            var html = 'Tên khách hàng: ' + data.tenKhachHang + '<br>';
+                            html += 'Loại khách hàng: ' + data.loaiKhachHang + '<br>';
+                            html += 'Tổng chi tiêu: ' + data.tongChiTieu + '<br>';
+                            $('#ketQua').html(html);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            $('#ketQua').html('Không tìm thấy khách hàng với mã khách hàng: ' + maKhachHang);
+                        }
+                    });
+                });
+            });
+
+
+                function editCustomer(maKhachHang) {
+                window.location.href = 'http://localhost:8080/api/customers/updateCustomer/' + maKhachHang;
+                }
+
+                function deleteCustomer(maKhachHang) {
+                    if (confirm('Bạn có chắc chắn muốn xóa khách hàng này?')) {
+                        $.ajax({
+                        url: '/api/customers/' + maKhachHang,
+                        type: 'DELETE',
+                            success: function(data) {
+                            alert('Xóa khách hàng thành công');
+                            // Tải lại trang hiển thị danh sách sản phẩm
+                            location.reload();
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                            alert('Không thể xóa khách hàng');
+                            }
+                        });
+                    }
+                }
+
+        </script>
+    </div>
+</div>
 </body>
 </html>

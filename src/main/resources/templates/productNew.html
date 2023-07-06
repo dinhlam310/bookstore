@@ -2,9 +2,80 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Tạo sản phẩm mới</title>
+  <link th:href="@{/css/total.css}" rel="stylesheet" />
 </head>
+
 <body>
-$END$
+
+<th:block th:include="/_navigation"></th:block>
+<div class="content">
+  <form action="/api/products/newProduct" id="productForm" method="POST">
+
+    <div class="form-new-product">
+      <h2>Sản phẩm mới</h2>
+      <div class="infomation">
+        <div class="form-group">
+          <label for="MaSP">Mã sản phẩm</label>
+          <input id="MaSP" type="text" required>
+        </div>
+        <div class="form-group">
+          <label for="TenSP">Tên sản phẩm</label>
+          <input id="TenSP" type="text" required>
+        </div>
+        <div class="form-group">
+          <label for="SoLuong">Số lượng</label>
+          <input id="SoLuong" type="text" required>
+        </div>
+        <div class="form-group">
+          <label for="DonGia">Đơn giá</label>
+          <input id="DonGia" type="text" required>
+        </div>
+      </div>
+      <div class="submit" id="submit">
+        <button type="submit" onclick="createProduct()">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>
+<script>
+  function createProduct() {
+    const productForm = document.querySelector('#productForm');
+    productForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      // const MaSP = document.querySelector('#MaSP').value;
+      const MaSP = encodeURIComponent(document.querySelector('#MaSP').value);
+      const TenSP = document.querySelector('#TenSP').value;
+      const SoLuong = document.querySelector('#SoLuong').value;
+      const DonGia = document.querySelector('#DonGia').value;
+      const productData = {
+        MaSP: MaSP,
+        TenSP: TenSP,
+        SoLuong: SoLuong,
+        DonGia: DonGia
+      };
+      fetch('/api/products/newProduct', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productData)
+      })
+              .then(response => response.json())
+              .then(data => {
+                console.log(data);
+                alert('Sản phẩm mới đã được tạo thành công!');
+                // document.querySelector('#productForm').reset();
+              })
+              .catch(error => {
+                console.error(error);
+                alert('Có lỗi xảy ra khi tạo sản phẩm mới!');
+                // document.querySelector('#productForm').reset();
+              });
+    });
+  }
+
+</script>
 </body>
 </html>

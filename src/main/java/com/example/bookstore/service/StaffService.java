@@ -47,7 +47,7 @@ public class StaffService implements UserDetailsService {
     }
 
     public boolean deleteStaff(String maNhanVien) {
-        Optional<NhanVien> staffOptional = staffRepository.findById(maNhanVien);
+        Optional<NhanVien> staffOptional = staffRepository.findByMaNhanVien(maNhanVien);
         if (staffOptional.isPresent()) {
             staffRepository.deleteById(maNhanVien);
             return true;
@@ -57,7 +57,7 @@ public class StaffService implements UserDetailsService {
     }
 
     public StaffDTO updateStaff(String maNhanVien, StaffDTO staffDTO) {
-        Optional<NhanVien> staffOptional = staffRepository.findById(maNhanVien);
+        Optional<NhanVien> staffOptional = staffRepository.findByMaNhanVien(maNhanVien);
         if (staffOptional.isPresent()) {
             NhanVien nhanVien = staffOptional.get();
 

@@ -70,7 +70,32 @@ public class AuthController {
 //        return new RandomStuff("JWT Hợp lệ mới có thể thấy được message này");
 //    }
 
-    // khi người dùng là user mà thâm nhập trang admin thì mình vào đây
+
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String loginPage(Model model) {
+        return "loginPage";
+    }
+
+    @RequestMapping(value = { "/", "/welcome","../" }, method = RequestMethod.GET)
+    public String welcomePage(Model model) {
+//        model.addAttribute("title", "Welcome");
+//        model.addAttribute("message", "This is welcome page!");
+        return "index";
+    }
+
+    //Đây là trang Admin
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public String adminPage(Model model, Principal principal) {
+
+        User loginedUser = (User) ((Authentication) principal).getPrincipal();
+
+        String userInfo = WebUtils.toString(loginedUser);
+        model.addAttribute("userInfo", userInfo);
+
+        return "adminPage";
+    }
+
     @RequestMapping(value = "/403", method = RequestMethod.GET)
     public String accessDenied(Model model, Principal principal) {
 
@@ -114,45 +139,21 @@ public class AuthController {
         return "logoutSuccessfulPage";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage(Model model) {
-        return "loginPage";
+    @RequestMapping("/error")
+    public String handleError(HttpServletRequest request) {
+        // Lấy mã lỗi HTTP từ request
+        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
+        if (statusCode != null) {
+            // Trả về trang lỗi tương ứng với mã lỗi HTTP
+            if (statusCode == HttpStatus.NOT_FOUND.value()) {
+                return "error-404";
+            } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+                return "error-500";
+            }
+        }
+        // Nếu không phải mã lỗi HTTP đã biết, trả về trang lỗi mặc định
+        return "error";
     }
-
-    @RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
-    public String welcomePage(Model model) {
-        model.addAttribute("title", "Welcome");
-        model.addAttribute("message", "This is welcome page!");
-        return "index";
-    }
-
-    //Đây là trang Admin
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String adminPage(Model model, Principal principal) {
-
-        User loginedUser = (User) ((Authentication) principal).getPrincipal();
-
-        String userInfo = WebUtils.toString(loginedUser);
-        model.addAttribute("userInfo", userInfo);
-
-        return "adminPage";
-    }
-
-//    @RequestMapping("/error")
-//    public String handleError(HttpServletRequest request) {
-//        // Lấy mã lỗi HTTP từ request
-//        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-//        if (statusCode != null) {
-//            // Trả về trang lỗi tương ứng với mã lỗi HTTP
-//            if (statusCode == HttpStatus.NOT_FOUND.value()) {
-//                return "error-404";
-//            } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-//                return "error-500";
-//            }
-//        }
-//        // Nếu không phải mã lỗi HTTP đã biết, trả về trang lỗi mặc định
-//        return "error";
-//    }
 }
 
 
