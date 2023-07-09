@@ -35,7 +35,7 @@ public class ProductService {
         }
     }
 
-    public ProductDTO updateProduct(String MaSP, ProductDTO productDTO) {
+    public  ProductDTO updateProduct(String MaSP, ProductDTO productDTO) {
         Optional<SanPham> productOptional = productRepository.findByMaSP(MaSP);
         if (productOptional.isPresent()) {
             SanPham sanPham = productOptional.get();

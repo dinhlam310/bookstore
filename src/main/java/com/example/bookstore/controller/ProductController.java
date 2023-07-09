@@ -1,7 +1,7 @@
 package com.example.bookstore.controller;
 
+import com.example.bookstore.DTO.AjaxResponseBody;
 import com.example.bookstore.DTO.ProductDTO;
-import com.example.bookstore.entity.KhachHang;
 import com.example.bookstore.entity.SanPham;
 import com.example.bookstore.repository.ProductRepository;
 import com.example.bookstore.service.ProductService;
@@ -16,14 +16,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/api/products")
@@ -33,22 +34,23 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-@RequestMapping(value = "productList/page", method = RequestMethod.GET)
-public String getProducts(@RequestParam(defaultValue = "0") int page, Model model, UriComponentsBuilder uriBuilder) {
-    Sort sort = Sort.by("MaSP").ascending();
-    PageRequest pageRequest = PageRequest.of(page, 5, sort);
-    Page<SanPham> productPage = productRepository.findAll(pageRequest);
+    @RequestMapping(value = "productList/page", method = RequestMethod.GET)
+    public String getProducts(@RequestParam(defaultValue = "0") int page, Model model, UriComponentsBuilder uriBuilder) {
 
-    model.addAttribute("productPage", productPage);
+        Sort sort = Sort.by("MaSP").ascending();
+        PageRequest pageRequest = PageRequest.of(page, 5, sort);
+        Page<SanPham> productPage = productRepository.findAll(pageRequest);
 
-    String previousUrl = uriBuilder.path("/productList/page").queryParam("page", page - 1).build().toUriString();
-    model.addAttribute("previousUrl", previousUrl);
+        model.addAttribute("productPage", productPage);
 
-    String nextUrl = uriBuilder.path("/productList/page").queryParam("page", page + 1).build().toUriString();
-    model.addAttribute("nextUrl", nextUrl);
+        String previousUrl = uriBuilder.path("/productList/page").queryParam("page", page - 1).build().toUriString();
+        model.addAttribute("previousUrl", previousUrl);
 
-    return "productList";
-}
+        String nextUrl = uriBuilder.path("/productList/page").queryParam("page", page + 1).build().toUriString();
+        model.addAttribute("nextUrl", nextUrl);
+
+        return "productList";
+    }
 
     @RequestMapping(value = "/productList/productUpdate", method = RequestMethod.GET)
     public String update() {
@@ -65,22 +67,38 @@ public String getProducts(@RequestParam(defaultValue = "0") int page, Model mode
 
     @RequestMapping(value = "/newProduct", method = RequestMethod.GET)
     public String newPage() {
+
         return "productNew";
     }
 
-//    @RequestMapping(value= "/newProduct",method=RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<?> createProduct(@Valid @RequestBody SanPham sanPham, BindingResult result) {
-//        if (result.hasErrors()) {
-//            return new ResponseEntity<>(getErrors(result), HttpStatus.BAD_REQUEST);
-//        } else{
-//            SanPham sanPhammoi = new SanPham(sanPham.getMaSP(), sanPham.getTenSP(), sanPham.getSoLuong(), sanPham.getDonGia());
-//            productRepository.save1(sanPhammoi);
-//            return new ResponseEntity<>("Tạo sản phẩm mới thành công", HttpStatus.CREATED);
+//    @PostMapping("/newProduct")
+//    public ResponseEntity<?> getSearchResultViaAjax(
+//            @Valid @RequestBody SanPham sanpham, Errors errors) {
+//
+//        AjaxResponseBody result = new AjaxResponseBody();
+//
+//        //If error, just return a 400 bad request, along with the error message
+//        if (errors.hasErrors()) {
+//
+//            result.setMess(errors.getAllErrors()
+//                    .stream().map(x -> x.getDefaultMessage())
+//                    .collect(Collectors.joining(",")));
+//
+//            return ResponseEntity.badRequest().body(result);
+//
 //        }
+//
+//        SanPham sp = productRepository.save(sanpham);
+//        if (sp == null) {
+//            result.setMess("no user found!");
+//        } else {
+//            result.setMess("success");
+//        }
+//        result.setData(sp);
+//
+//        return ResponseEntity.ok(result);
+//
 //    }
-
-
-
     @RequestMapping(value = "/newProduct", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createProduct(@Valid @RequestBody SanPham sanPham, BindingResult result) {
         if (result.hasErrors()) {
@@ -95,7 +113,8 @@ public String getProducts(@RequestParam(defaultValue = "0") int page, Model mode
                 productRepository.save1(sanPhamMoi.getMaSP(), sanPhamMoi.getTenSP(), sanPhamMoi.getSoLuong(), sanPhamMoi.getDonGia());
                 return new ResponseEntity<>("Tạo sản phẩm mới thành công", HttpStatus.CREATED);
             } catch (Exception e) {
-                return new ResponseEntity<>("Mã sản phẩm đã tồn tại", HttpStatus.CONFLICT);
+                String errorMessage = "Lỗi: " + e.getMessage();
+                return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
             }
         }
     }
@@ -125,9 +144,9 @@ public String getProducts(@RequestParam(defaultValue = "0") int page, Model mode
         return "editProduct";
     }
 
-    @RequestMapping(value = "/editProduct/{MaSP}", method = RequestMethod.PUT , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProductDTO> updateProduct(@PathVariable("MaSP") String MaSP, @RequestBody ProductDTO productDTO) {
-        ProductDTO updatedProduct = productService.updateProduct(MaSP, productDTO);
+    @RequestMapping(value = "/editProduct/{MaSP}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateProduct(@PathVariable("MaSP") String MaSP, @RequestBody SanPham sanPham) {
+        SanPham updatedProduct = productRepository.save(sanPham);
         if (updatedProduct == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -143,4 +162,5 @@ public String getProducts(@RequestParam(defaultValue = "0") int page, Model mode
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 }

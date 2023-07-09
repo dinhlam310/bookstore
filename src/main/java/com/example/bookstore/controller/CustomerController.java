@@ -1,7 +1,7 @@
 package com.example.bookstore.controller;
 
-import com.example.bookstore.DTO.CustomerDTO;
 import com.example.bookstore.entity.KhachHang;
+import com.example.bookstore.entity.SanPham;
 import com.example.bookstore.repository.CustomerRepository;
 import com.example.bookstore.service.CustomerService;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -17,14 +17,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Controller
@@ -74,14 +72,26 @@ public class CustomerController {
     }
 
     //@PostMapping(value = "/newCustomer", consumes = "application/json", produces = "application/json")
-    @RequestMapping(value= "/newCustomer",method=RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/newCustomer", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createCustomer(@Valid @RequestBody KhachHang khachHang, BindingResult result) {
         if (result.hasErrors()) {
             return new ResponseEntity<>(getErrors(result), HttpStatus.BAD_REQUEST);
-        } else{
-            KhachHang khachHangmoi = new KhachHang(khachHang.getMaKhachHang(),khachHang.getTenKhachHang(), khachHang.getEmail(),khachHang.getSoDienThoai(),khachHang.getNgaySinh(),khachHang.getLoaiKhachHang(),khachHang.getTongChiTieu());
-            customerRepository.save(khachHangmoi);
-            return new ResponseEntity<>("Tạo khách hàng thành công", HttpStatus.CREATED);
+        } else {
+            try {
+                KhachHang khachHangMoi = new KhachHang();
+                khachHangMoi.setMaKhachHang(khachHang.getMaKhachHang());
+                khachHangMoi.setTenKhachHang(khachHang.getTenKhachHang());
+                khachHangMoi.setEmail(khachHang.getEmail());
+                khachHangMoi.setSoDienThoai(khachHang.getSoDienThoai());
+                khachHangMoi.setNgaySinh(khachHang.getNgaySinh());
+                khachHangMoi.setLoaiKhachHang(khachHang.getLoaiKhachHang());
+                khachHangMoi.setTongChiTieu(khachHang.getTongChiTieu());
+                customerRepository.save1(khachHangMoi.getMaKhachHang(), khachHangMoi.getTenKhachHang(), khachHangMoi.getEmail(), khachHangMoi.getSoDienThoai(), khachHangMoi.getNgaySinh(), khachHangMoi.getLoaiKhachHang(), khachHangMoi.getTongChiTieu());
+                return new ResponseEntity<>("Tạo khách hàng mới thành công", HttpStatus.CREATED);
+            } catch (Exception e) {
+                String errorMessage = "Lỗi: " + e.getMessage();
+                return new ResponseEntity<>(errorMessage, HttpStatus.CONFLICT);
+            }
         }
     }
 
@@ -94,21 +104,31 @@ public class CustomerController {
     }
 
 
-    @RequestMapping(value = "/updateCustomer", method = RequestMethod.GET)
+    @RequestMapping(value = "/editCustomer", method = RequestMethod.GET)
     public String updateCustomer() {
-        return "customerUpdate";
+        return "editCustomer";
     }
-    @PutMapping("/updateCustomer/{customerId}")
-    public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable("customerId") String maKhachHang, @RequestBody CustomerDTO customerDTO) {
-        Optional<CustomerDTO> updatedCustomerOptional = customerService.updateCustomer(maKhachHang, customerDTO);
-        if (updatedCustomerOptional.isPresent()) {
-            return ResponseEntity.ok(updatedCustomerOptional.get());
+    @RequestMapping(value = "/editCustomer/{customerId}", method = RequestMethod.GET)
+    public String checkProduct(Model model, @PathVariable("customerId") String maKhachHang) {
+        KhachHang khachHang = customerService.getCustomerByMaKhachHang(maKhachHang);
+        if (khachHang == null) {
+            model.addAttribute("error", "Không tìm thấy sản phẩm với mã " + maKhachHang);
         } else {
-            return ResponseEntity.notFound().build();
+            model.addAttribute("customer", new KhachHang(khachHang.getMaKhachHang(), khachHang.getTenKhachHang(), khachHang.getEmail(), khachHang.getSoDienThoai(), khachHang.getNgaySinh(), khachHang.getLoaiKhachHang(), khachHang.getTongChiTieu()));
         }
+        return "editCustomer";
     }
 
-    @DeleteMapping("/deleteCustomer/{customerId}")
+    @RequestMapping(value = "/editCustomer/{customerId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateCustomer(@PathVariable("customerId") String MaKhachHang, @RequestBody KhachHang khachHang) {
+        KhachHang updateCustomer = customerRepository.save(khachHang);
+        if (updateCustomer == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(updateCustomer);
+    }
+
+    @DeleteMapping("/editCustomer/{customerId}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable("customerId") String MaKhachHang) {
         boolean deleted = customerService.deleteCustomer(MaKhachHang);
         if (deleted) {

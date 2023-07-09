@@ -9,7 +9,7 @@
 <th:block th:include="/_navigation"></th:block>
 <div class="content">
 
-    <form id="formSua" method="get" action="/api/products/editProduct">
+    <form id="formSua">
         <div class="form-group">
             <label for="MaSP">Mã sản phẩm</label>
             <input id="MaSP" type="text" name="MaSP" required>
@@ -19,9 +19,10 @@
             <p th:text="${error}"></p>
         </div>
 
+
         <div th:if="${not #strings.isEmpty(product)}" role="alert">
             <p>Mã sản phẩm:</p>
-            <input type="text" name="MaSP" th:value="${product.MaSP}" readonly>
+            <input type="text" name="MaSP"  th:value="${product.MaSP}" readonly >
             <p>Tên sản phẩm:</p>
             <input type="text" name="TenSP" th:value="${product.tenSP}">
             <p>Số lượng:</p>
@@ -29,6 +30,7 @@
             <p>Đơn giá:</p>
             <input type="text" name="DonGia" th:value="${product.donGia}">
         </div>
+
 
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Kiểm tra</button>
@@ -46,7 +48,7 @@
             document.getElementById("formSua").addEventListener("submit", function(event) {
                 event.preventDefault();
                 var maSP = document.getElementById("MaSP").value;
-                var url = "http://localhost:8080/api/products/editProduct/" + maSP;
+                var url = "/api/products/editProduct/" + maSP;
 
                 window.location.href = url;
             });
@@ -63,6 +65,28 @@
             <button id="btnHuyXoa" type="button">Hủy</button>
         </div>
     </form>
+    <form id="deleteForm">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit">Delete</button>
+        <script>
+        $(document).ready(function() {
+        $("#deleteForm").submit(function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: "/api/products/editProduct/" + maSP,
+        type: "DELETE",
+        success: function(response) {
+        alert("Delete request successful");
+        },
+        error: function(xhr, status, error) {
+        alert("Delete request failed: " + error);
+        }
+        });
+        });
+        });
+        </script>
+    </form>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -76,7 +100,7 @@
 
                 // Gửi request lên server để sửa thông tin sản phẩm
                 $.ajax({
-                    url: "http://localhost:8080/api/products/editProduct/" + maSP,
+                    url: "/api/products/editProduct/" + maSP,
                     type: "PUT",
                     dataType: 'json',
                     contentType: 'application/json',
@@ -120,7 +144,7 @@
 
                 // Gửi request lên server để xóa sản phẩm
                 $.ajax({
-                    url: "http://localhost:8080/api/products/editProduct/" + maSP,
+                    url: "/api/products/editProduct/" + maSP,
                     type: "DELETE",
                     data: {
                         MaSP: maSP

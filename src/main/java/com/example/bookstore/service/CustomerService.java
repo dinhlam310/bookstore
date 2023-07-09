@@ -2,6 +2,7 @@ package com.example.bookstore.service;
 
 import com.example.bookstore.DTO.CustomerDTO;
 import com.example.bookstore.entity.KhachHang;
+import com.example.bookstore.entity.SanPham;
 import com.example.bookstore.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,15 @@ import java.util.Optional;
 public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
+
+    public KhachHang getCustomerByMaKhachHang(String maKhachHang) {
+        Optional<KhachHang> optionalCustomer = customerRepository.findByMaKhachHang(maKhachHang);
+        if (optionalCustomer.isPresent()) {
+            return optionalCustomer.get();
+        } else {
+            return null;
+        }
+    }
 
     public boolean deleteCustomer(String maKhachHang) {
         Optional<KhachHang> customerOptional = customerRepository.findByMaKhachHang(maKhachHang);
