@@ -1,128 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Tạo sản phẩm mới</title>
-  <link th:href="@{/css/total.css}" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <title>Sản phẩm mới</title>
+    <link th:href="@{/css/total.css}" rel="stylesheet" />
 </head>
 
 <body>
 
 <th:block th:include="/_navigation"></th:block>
 <div class="content">
-  <form id="save-form">
+    <h2 th:if="${mess != null}" th:text="${mess}" style="color:red"> </h2>
+    <form id="save-form" th:action="@{'/api/products/saveProduct'}" th:object="${PRODUCT}" method="post">
 
-    <div class="form-new-product">
-      <h2>Sản phẩm mới</h2>
-      <div class="infomation">
-        <div class="form-group">
-          <label for="MaSP">Mã sản phẩm</label>
-          <input id="MaSP" type="text" required>
+        <div class="form-new-product">
+            <h2>Sản phẩm mới</h2>
+            <div class="infomation">
+                <div class="form-group">
+                    <label for="MaSP">Mã sản phẩm</label>
+                    <th:block th:if="${isUpdate != null}">
+                        <input th:field="*{maSP}" id="MaSP" type="text" disabled>
+                        <input type="hidden" th:field="*{maSP}" >
+                    </th:block>
+                    <th:block th:unless="${isUpdate != null}">
+                        <input th:field="*{maSP}" id="MaSP" type="text" required>
+                    </th:block>
+
+                </div>
+                <div class="form-group">
+                    <label for="TenSP">Tên sản phẩm</label>
+                    <input th:field="*{TenSP}"  id="TenSP" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="SoLuong">Số lượng</label>
+                    <input th:field="*{SoLuong}"  id="SoLuong" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="DonGia">Đơn giá</label>
+                    <input th:field="*{DonGia}"  id="DonGia" type="text" required>
+                </div>
+            </div>
+            <div class="submit" id="submit">
+                <button id="bth-save" type="submit" >Thêm</button>
+            </div>
         </div>
-        <div class="form-group">
-          <label for="TenSP">Tên sản phẩm</label>
-          <input id="TenSP" type="text" required>
-        </div>
-        <div class="form-group">
-          <label for="SoLuong">Số lượng</label>
-          <input id="SoLuong" type="text" required>
-        </div>
-        <div class="form-group">
-          <label for="DonGia">Đơn giá</label>
-          <input id="DonGia" type="text" required>
-        </div>
-      </div>
-      <div class="submit" id="submit">
-        <button id="bth-save" type="submit" onclick="createProduct()">Submit</button>
-      </div>
-    </div>
-  </form>
+    </form>
 </div>
-<script>
-  $(document).ready(function () {
 
-    $("#save-form").submit(function (event) {
-
-      //stop submit the form, we will post it manually.
-      event.preventDefault();
-
-      fire_ajax_submit();
-
-    });
-
-  });
-  //
-  // function fire_ajax_submit() {
-  //
-  //   var search = {}
-  //   search["MaSP"] = $("#MaSP").val();
-  //   search["TenSP"] = $("#TenSP").val();
-  //
-  //   search["SoLuong"] = $("#SoLuong").val();
-  //   search["DonGia"] = $("#DonGia").val();
-  //
-  //   $("#btn-save").prop("disabled", true);
-  //
-  //   $.ajax({
-  //     type: "POST",
-  //     contentType: "application/json",
-  //     url: "/api/products/newProduct",
-  //     data: JSON.stringify(search),
-  //     dataType: 'json',
-  //     cache: false,
-  //     timeout: 600000,
-  //     success: function (data) {
-  //
-  //       alert('Sản phẩm mới đã được tạo thành công!');
-  //
-  //     },
-  //     error: function (e) {
-  //       alert('loi khong add dc!');
-  //
-  //       console.log("ERROR : ", e);
-  //       $("#btn-search").prop("disabled", false);
-  //
-  //     }
-  //   });
-  //
-  // }
-  function createProduct() {
-    const productForm = document.querySelector('#productForm');
-    productForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-      // const MaSP = document.querySelector('#MaSP').value;
-      const MaSP = encodeURIComponent(document.querySelector('#MaSP').value);
-      const TenSP = document.querySelector('#TenSP').value;
-      const SoLuong = document.querySelector('#SoLuong').value;
-      const DonGia = document.querySelector('#DonGia').value;
-      const productData = {
-        MaSP: MaSP,
-        TenSP: TenSP,
-        SoLuong: SoLuong,
-        DonGia: DonGia
-      };
-      fetch('/api/products/newProduct', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(productData)
-      })
-              .then(response => response.json())
-              .then(data => {
-                console.log(data);
-                alert('Sản phẩm mới đã được tạo thành công!');
-                // document.querySelector('#productForm').reset();
-              })
-              .catch(error => {
-                console.error(error);
-                alert('Có lỗi xảy ra khi tạo sản phẩm mới!');
-                // document.querySelector('#productForm').reset();
-              });
-    });
-  }
-
-</script>
 </body>
 </html>

@@ -10,13 +10,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 @Transactional
 public interface ProductRepository extends JpaRepository<SanPham, String> {
+
     Page<SanPham> findAll(Pageable pageable);
 
+    @Query("SELECT s FROM SanPham s WHERE s.TenSP LIKE :name")
+    List<SanPham> findByTenSPLike(@Param("name") String TenSP);
     SanPham save(SanPham sanPham);
 
     @Modifying

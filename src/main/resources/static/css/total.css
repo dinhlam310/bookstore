@@ -8,7 +8,8 @@ container{
 }
 
 .content{
-    padding: 300px;
+    margin-left: 200px;
+    padding-top: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -21,6 +22,7 @@ container{
 /*    justify-content: center;*/
 /*    flex-direction: column;*/
 /*}*/
+
 .form-group {
     display: flex;
     flex-direction: column;
@@ -29,7 +31,7 @@ container{
     display: block;
 }
 
-button {
+button , .option {
     background-color: #28A745;
     color: #ffffff;
     border: none;
@@ -38,10 +40,18 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.option {
+    margin: 0px 10px;
+}
+
+button:hover, .option:hover {
     /*border: 2px solid #28A745;*/
     color: #28A745;
     background-color: #ffffff;
     outline: none;
     box-shadow: 0 0 0 2px #28A745;
+}
+
+.findProduct{
+    width: max-content;
 }

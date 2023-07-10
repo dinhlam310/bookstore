@@ -10,6 +10,9 @@
       border: 1px solid black;
       padding: 10px;
     }
+    table{
+      width: max-content;
+    }
     .timkiemsanpham{
       border: 1px solid black;
       padding: 10px;
@@ -23,7 +26,8 @@
 <div class="content">
 
   <h1>Danh sách sản phẩm</h1>
-
+<h2 th:if-="${isOk != null}" th:text="${isOk}" style="color: green"></h2>
+  <h2 th:if-="${isUpdate != null}" th:text="${isUpdate}" style="color: green"></h2>
   <table>
     <thead>
     <tr>
@@ -40,80 +44,45 @@
       <td th:text="${sanPham.getTenSP()}"></td>
       <td th:text="${sanPham.getSoLuong()}"></td>
       <td th:text="${sanPham.getDonGia()}"></td>
-      <td>
-        <button type="button" onclick="editProduct(${sanPham.getMaSP()})">Sửa</button>
-        <button type="button" onclick="deleteProduct(${sanPham.getMaSP()})">Xóa</button>
+      <td >
+        <a class="option" th:href="@{'/api/products/update/' +${sanPham.getMaSP()} }"> sửa </a>
+
+        <a class="option" th:href="@{'/api/products/delete/'+ ${sanPham.getMaSP()} }"> xóa </a>
       </td>
     </tr>
     </tbody>
   </table>
 
-  <div>
-    <a th:if="${productPage.hasPrevious()}" th:href="@{/api/products/productList/page(page=${productPage.number - 1})}">
-      Previous
+  <div style="width: max-content">
+    <a th:if="${productPage.hasPrevious()}" th:href="@{/api/products/productList/page(page=${productPage.totalPages - productPage.totalPages })}">
+      Trang đầu
     </a>
-    <span th:unless="${productPage.hasPrevious()}">Previous</span>
+
+    <a th:if="${productPage.hasPrevious()}" th:href="@{/api/products/productList/page(page=${productPage.number - 1})}">
+      Trước
+    </a>
+    <span th:unless="${productPage.hasPrevious()}">Trước</span>
 
     <span th:text="${productPage.number + 1}"></span>/<span th:text="${productPage.totalPages}"></span>
 
     <a th:if="${productPage.hasNext()}" th:href="@{/api/products/productList/page(page=${productPage.number + 1})}">
-      Next
+      Tiếp
     </a>
-    <span th:unless="${productPage.hasNext()}">Next</span>
+    <span th:unless="${productPage.hasNext()}">Tiếp</span>
 
+    <a th:if="${productPage.hasNext()}" th:href="@{/api/products/productList/page(page=${productPage.totalPages - 1})}">
+      Trang cuối
+    </a>
   </div>
 
   <div class="timkiemsanpham">
-    <label for="maSP"></label><input type="text" id="maSP" placeholder="Nhập mã sản phẩm">
-    <button id="btnTimKiem">Tìm kiếm</button>
-
-    <div id="ketQua"></div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-      $(document).ready(function() {
-        $('#btnTimKiem').click(function() {
-          var maSP = $('#maSP').val();
-          $.ajax({
-            url: '/api/products/' + maSP,
-            type: 'GET',
-            success: function(data) {
-              var html = 'Tên sản phẩm: ' + data.tenSP + '<br>';
-              html += 'Số lượng: ' + data.soLuong + '<br>';
-              html += 'Đơn giá: ' + data.donGia + '<br>';
-              $('#ketQua').html(html);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-              $('#ketQua').html('Không tìm thấy sản phẩm với mã sản phẩm: ' + maSP);
-            }
-          });
-        });
-      });
-
-      function editProduct(maSP) {
-        // Chuyển hướng đến trang cập nhật sản phẩm với mã sản phẩm được chọn
-        window.location.href = 'api/products/productList/update' + maSP;
-      }
-
-      function deleteProduct(maSP) {
-        if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
-          // Gửi yêu cầu xóa sản phẩm đến server
-          $.ajax({
-            url: '/api/products/' + maSP,
-            type: 'DELETE',
-            success: function(data) {
-              alert('Xóa sản phẩm thành công');
-              // Tải lại trang hiển thị danh sách sản phẩm
-              location.reload();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-              alert('Không thể xóa sản phẩm');
-            }
-          });
-        }
-      }
-    </script>
+    <form class="findProduct" th:action="@{'/api/products/searchTenSP'}" method="get">
+    <label for="maSP"></label>
+      <input type="text"  name="tenSP" id="maSP" placeholder="Nhập tên sản phẩm">
+    <button type="submit" >Tìm kiếm</button>
+    </form>
   </div>
+
 </div>
 </body>
 </html>

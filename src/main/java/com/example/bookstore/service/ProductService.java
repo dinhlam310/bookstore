@@ -8,6 +8,7 @@ import com.example.bookstore.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,6 +17,9 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    public List<SanPham> searchTenSP(String TenSP){
+        return productRepository.findByTenSPLike("%"+TenSP);
+    }
     public SanPham getProductByMaSP(String maSP) {
         Optional<SanPham> optionalProduct = productRepository.findByMaSP(maSP);
         if (optionalProduct.isPresent()) {

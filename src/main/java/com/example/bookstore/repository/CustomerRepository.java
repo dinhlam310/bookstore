@@ -22,7 +22,7 @@ public interface CustomerRepository extends JpaRepository<KhachHang, String> {
 
     @Modifying
     @Query(value = "INSERT INTO khach_hang (ma_khach_hang, ten_khach_hang, email , so_dien_thoai , ngay_sinh , ma_loai , tong_chi_tieu) VALUES (:maKhachHang, :TenKhachHang, :Email , :SoDienThoai , :NgaySinh , :MaLoai , :TongChiTieu)", nativeQuery = true)
-    void save1(@Param("maKhachHang") String maKhachHang, @Param("TenKhachHang") String TenKhachHang, @Param("Email") String Email, @Param("SoDienThoai") String SoDienThoai, @Param("NgaySinh") Date NgaySinh, @Param("LoaiKhachHang") String LoaiKhachHang, @Param("TongChiTieu") int TongChiTieu);
+    void save1(@Param("maKhachHang") String maKhachHang, @Param("TenKhachHang") String TenKhachHang, @Param("Email") String Email, @Param("SoDienThoai") String SoDienThoai, @Param("NgaySinh") Date NgaySinh, @Param("MaLoai") String LoaiKhachHang, @Param("TongChiTieu") int TongChiTieu);
 
     Optional<KhachHang> findByMaKhachHang(String maKhachHang);
 
