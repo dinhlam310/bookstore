@@ -7,34 +7,32 @@
             <ul>
                 <li>Nhân viên
                     <ul>
-                        <li><a th:href="@{/api/staffs/newStaff}" >Khách hàng mới</a></li>
+                        <li><a th:href="@{/api/staffs/newStaff}" >Nhân viên mới</a></li>
                         <li><a th:href="@{/api/staffs/staffList/page/}">Danh sách nhân viên</a></li>
                     </ul>
                 </li>
                 <li>Khách hàng
                     <ul>
                         <li><a th:href="@{/api/customers/newCustomer}" >Khách hàng mới</a></li>
-<!--                        <li><a th:href="@{/api/products/editCustomer}" >Cập nhật khách hàng</a></li>-->
                         <li><a th:href="@{/api/customers/customerList/page/}">Danh sách khách hàng</a></li>
 
                     </ul>
                 </li>
                 <li>Đơn hàng
                     <ul>
-                        <li><a th:href="@{/api/orders/newOrder}" >Khách hàng mới</a></li>
-                        <li><a href="">Chi tiết đơn hàng mới</a></li>
+                        <li><a th:href="@{/api/orders/newOrder}" >Đơn hàng mới</a></li>
+                        <li><a th:href="@{/api/orders/orderList/page/}">Danh sách hóa đơn </a></li>
                     </ul>
                 </li>
                 <li>Sản phẩm
                     <ul>
                         <li><a th:href="@{/api/products/newProduct}" >Sản phẩm mới</a></li>
-<!--                        <li><a th:href="@{/api/products/editProduct}" >Cập nhật sản phẩm</a></li>-->
                         <li><a th:href="@{/api/products/productList/page/}" >Danh sách sản phẩm</a></li>
                     </ul>
                 </li>
                 <li>Đăng xuất
                     <ul>
-                    <li><a th:if="${#request.userPrincipal != null}" th:href="@{/logout}"> Logout </a></li>
+                    <li><a th:if="${#request.userPrincipal != null}" th:href="@{/api/auth/logout}"> Logout </a></li>
                     </ul>
                 </li>
             </ul>

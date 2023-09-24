@@ -1,8 +1,5 @@
 package com.example.bookstore.DAO;
 
-import com.example.bookstore.entity.KhachHang;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository

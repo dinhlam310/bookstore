@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách đơn hàng</title>
+  <link th:href="@{/css/total.css}" rel="stylesheet" />
+
+  <style>
+    table, th, td, tr {
+      border: 1px solid black;
+      padding: 10px;
+    }
+    table{
+      width: max-content;
+    }
+    .timkiemhoadon{
+      border: 1px solid black;
+      padding: 10px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+<th:block th:include="/_navigation"></th:block>
+<div class="content">
+
+  <h1>Danh sách đơn hàng</h1>
+  <h2 th:if-="${isOk != null}" th:text="${isOk}" style="color: green"></h2>
+  <h2 th:if-="${isUpdate != null}" th:text="${isUpdate}" style="color: green"></h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Mã đơn hàng</th>
+      <th>Ngày lập đơn hàng</th>
+      <th>Tên nhân viên</th>
+      <th>Tên khách hàng</th>
+      <th>Tổng tiền</th>
+      <th>Chi tiết</th>
+      <th>Tùy chọn</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="orders : ${orderPage.getContent()}">
+      <td th:text="${orders.getId()}"></td>
+      <td th:text="${orders.getDateBuy()}"></td>
+
+      <td>
+    <span th:each="s : ${orders.staff}">
+        <span th:text="${s.username}"></span>
+    </span>
+      </td>
+
+      <td>
+    <span th:each="s : ${orders.customer}">
+        <span th:text="${s.name}"></span>
+    </span>
+      </td>
+
+      <td th:text="${orders.calculateTotal()}"></td>
+      <td>
+        <a class="option" th:href="@{'/api/orders/orderDetail/' +${orders.getId()} }"> Xem </a>
+      </td>
+      <td>
+<!--        <a class="option" th:href="@{'/api/orders/update/' +${orders.getId()} }"> sửa </a>-->
+
+        <a class="option" th:href="@{'/api/orders/delete/'+ ${orders.getId()} }"> xóa </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div style="width: max-content">
+    <a th:if="${orderPage.hasPrevious()}" th:href="@{/api/orders/orderList/page(page=${orderPage.totalPages - orderPage.totalPages })}">
+      Trang đầu
+    </a>
+
+    <a th:if="${orderPage.hasPrevious()}" th:href="@{/api/orders/orderList/page(page=${orderPage.number - 1})}">
+      Trước
+    </a>
+    <span th:unless="${orderPage.hasPrevious()}">Trước</span>
+
+    <span th:text="${orderPage.number + 1}"></span>/<span th:text="${orderPage.totalPages}"></span>
+
+    <a th:if="${orderPage.hasNext()}" th:href="@{/api/orders/orderList/page(page=${orderPage.number + 1})}">
+      Tiếp
+    </a>
+    <span th:unless="${orderPage.hasNext()}">Tiếp</span>
+
+
+    <a th:if="${orderPage.hasNext()}" th:href="@{/api/orders/orderList/page(page=${orderPage.totalPages - 1})}">
+      Trang cuối
+    </a>
+  </div>
+
+  <div class="timkiemhoadon">
+    <form class="findOrder" th:action="@{'/api/orders/findOrder'}" method="get">
+      <label for="id"></label>
+      <input type="text"  name="id" id="id" placeholder="Nhập mã đơn hàng">
+      <button type="submit" >Tìm kiếm</button>
+    </form>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chi tiết đơn hàng</title>
+  <link th:href="@{/css/total.css}" rel="stylesheet" />
+
+  <style>
+    table, th, td, tr {
+      border: 1px solid black;
+      padding: 10px;
+    }
+    table{
+      width: max-content;
+    }
+  </style>
+</head>
+<body>
+
+<th:block th:include="/_navigation"></th:block>
+<div class="content">
+
+  <h1>Chi tiết đơn hàng</h1>
+  <table th:action="@{'/api/orders/orderDetail/'}" th:object="${order}" method="get">
+    <thead>
+    <tr>
+      <th>Mã đơn hàng</th>
+      <th>Ngày lập đơn hàng</th>
+      <th>Tên nhân viên</th>
+      <th>Tên khách hàng</th>
+      <th>Tổng tiền</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td th:text="${order.get().getId()}"></td>
+      <td th:text="${order.get().getDateBuy()}"></td>
+      <td>
+            <span th:each="s : ${order.get().getStaff()}">
+                <span th:text="${s.getUsername()}"></span>
+            </span>
+      </td>
+      <td>
+            <span th:each="s : ${order.get().getCustomer()}">
+                <span th:text="${s.getName()}"></span>
+            </span>
+      </td>
+      <td th:text="${order.get().calculateTotal()}"></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <table th:action="@{'/api/orders/orderDetail/'}" th:object="${ORDERDETAIL}" method="get">
+
+    <thead>
+    <tr>
+      <th>Mã sản phẩm</th>
+      <th>Tên sản phẩm</th>
+      <th>Đơn giá</th>
+      <th>Số lượng mua</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="orderDetail : ${orderDetails}">
+      <td>
+        <span th:text="${orderDetail.product.id}"></span>
+      </td>
+      <td>
+        <span th:text="${orderDetail.product.name}"></span>
+      </td>
+      <td>
+        <span th:text="${orderDetail.product.price}"></span>
+      </td>
+      <td th:text="${orderDetail.quantity}"></td>
+    </tr>
+    </tbody>
+
+  </table>
+</div>
+</body>
+</html>

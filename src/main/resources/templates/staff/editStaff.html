@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cập nhật nhân viên</title>
+    <link th:href="@{/css/total.css}" rel="stylesheet" />
+</head>
+
+<body>
+
+<th:block th:include="/_navigation"></th:block>
+<div class="content">
+    <h2 th:if="${mess != null}" th:text="${mess}" style="color:red"> </h2>
+    <form id="save-form" th:action="@{'/api/staffs/saveStaff'}" th:object="${STAFF}" method="post">
+
+        <div class="form-new-staff">
+            <h2>Cập nhật nhân viên</h2>
+            <div class="infomation">
+                <div class="form-group">
+                    <label for="Id">Mã nhân viên</label>
+                    <th:block th:if="${isUpdate != null}">
+                        <input th:field="*{id}" id="Id" type="text" disabled>
+                        <input type="hidden" th:field="*{id}" >
+                    </th:block>
+                    <th:block th:unless="${isUpdate != null}">
+                        <input th:field="*{id}" id="Id" type="text" required>
+                    </th:block>
+                </div>
+                <div class="form-group">
+                    <label for="Username">Tên nhân viên</label>
+                    <input th:field="*{username}"  id="Username" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="Password">Mật khẩu</label>
+                    <input th:field="*{password}"  id="Password" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="Date">Ngày sinh</label>
+                    <input th:field="*{date}"  id="Date" type="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="Phone">Số điện thoại</label>
+                    <input th:field="*{phone}"  id="Phone" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input th:field="*{email}"  id="Email" type="text" required>
+                </div>
+                <div class="form-group">
+                    <label for="Address">Địa chỉ</label>
+                    <input th:field="*{address}"  id="Address" type="text" required>
+                </div>
+<!--                <div class="form-group">-->
+<!--                    <label for="RoleName">Chức vụ</label>-->
+<!--                    <input th:field="*{RoleName}"  id="RoleName" type="text" required>-->
+<!--                </div>-->
+            </div>
+            <div class="submit" id="submit">
+                <button id="bth-save" type="submit" >Sửa</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

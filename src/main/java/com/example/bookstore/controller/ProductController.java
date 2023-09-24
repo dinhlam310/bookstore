@@ -1,6 +1,6 @@
 package com.example.bookstore.controller;
 
-import com.example.bookstore.entity.SanPham;
+import com.example.bookstore.entity.Product;
 import com.example.bookstore.repository.ProductRepository;
 import com.example.bookstore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,9 @@ public class ProductController {
     @RequestMapping(value = "productList/page", method = RequestMethod.GET)
     public String getProducts(@RequestParam(defaultValue = "0") int page, Model model, UriComponentsBuilder uriBuilder) {
 
-        Sort sort = Sort.by("MaSP").ascending();
+        Sort sort = Sort.by("Id").ascending();
         PageRequest pageRequest = PageRequest.of(page, 5, sort);
-        Page<SanPham> productPage = productRepository.findAll(pageRequest);
+        Page<Product> productPage = productRepository.findAll(pageRequest);
 
         model.addAttribute("productPage", productPage);
 
@@ -38,71 +38,70 @@ public class ProductController {
         String nextUrl = uriBuilder.path("/productList/page").queryParam("page", page + 1).build().toUriString();
         model.addAttribute("nextUrl", nextUrl);
 
-        return "productList";
+        return "product/productList";
     }
 
     // Tìm kiếm sản phẩm trên giao diện productList
-    @GetMapping("/searchTenSP")
+    @GetMapping("/searchName")
     public String SearchTenSP(UriComponentsBuilder uriBuilder,
-                              @RequestParam("tenSP") String nameSP, @Param("tenSP") String nameSP1,
+                              @RequestParam("name") String name, @Param("name") String name1,
                               @RequestParam(defaultValue = "0") int page, Model model, HttpServletRequest request){
-        String tensp = request.getParameter("tenSP");
+        name = request.getParameter("tenSP");
         Pageable pageable = PageRequest.of(0, 5);
-        List<SanPham> listProduct = productService.searchTenSP(nameSP);
-        Page<SanPham> pageProduct = new PageImpl<>(listProduct, pageable, listProduct.size());
+        List<Product> listProduct = productService.searchName(name);
+        Page<Product> pageProduct = new PageImpl<>(listProduct, pageable, listProduct.size());
         model.addAttribute("productPage", pageProduct);
-        return "productList";
+        return "product/productList";
     }
 
     // Xoá sản phẩm trên giao diện productList
-    @GetMapping("/delete/{maSP}")
-    public String deleteMAsp(@PathVariable("maSP") String maSP, UriComponentsBuilder uriBuilder,
+    @GetMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable("id") String id, UriComponentsBuilder uriBuilder,
                              @RequestParam(defaultValue = "0") int page, Model model) {
-        boolean isDel = productService.deleteProduct(maSP);
+        boolean isDel = productService.deleteProduct(id);
         if (isDel == true) {
-            model.addAttribute("isOk", "Xóa sản phẩm với mã " + maSP + " thành công!");
+            model.addAttribute("isOk", "Xóa sản phẩm với mã " + id + " thành công!");
         }
         return getProducts(page, model, uriBuilder);
     }
 
     @ModelAttribute("PRODUCT")
-    public SanPham initProduct() {
-        return new SanPham();
+    public Product initProduct() {
+        return new Product();
     }
 
     // hiện giao diện New product
     @RequestMapping(value = "/newProduct", method = RequestMethod.GET)
-
     public String newPage(Model model) {
-        return "ProductNew";
+        return "product/productNew";
     }
 
     // Hiển thị productList sau khi tạo sản phẩm mới và hiện thông báo
     @PostMapping("/saveProduct")
-    public String saveProduct(Model model, SanPham sanPham , UriComponentsBuilder uriBuilder,
+    public String saveProduct(Model model, Product product, UriComponentsBuilder uriBuilder,
                               @RequestParam(defaultValue = "0") int page) {
 
-        if (productRepository.findByMaSP(sanPham.getMaSP())  != null){
-            model.addAttribute("isUpdate", "Cập nhật sản phẩm có mã " + sanPham.getMaSP() + " thành công!!");
-            productRepository.save(sanPham);
+        if (productRepository.findById(product.getId())  != null){
+            model.addAttribute("isUpdate", "Cập nhật sản phẩm có mã " + product.getId() + " thành công!!");
+            productRepository.save(product);
             return getProducts(page,model,uriBuilder);
 
         }else{
             model.addAttribute("mess", "Save product Successfully!!");
-            productRepository.save(sanPham);
+            productRepository.save(product);
             return newPage(model);
         }
     }
 
     // chuyển sang giao diện productNew và chỉnh sửa sản phẩm khi bấm nút sửa bên productList
-    @GetMapping("/update/{masp}")
-    public String viewUpdate(@PathVariable("masp") String masp,Model  model){
-        SanPham  sp = productRepository.findByMaSP(masp).get();
+    @GetMapping("/update/{id}")
+    public String viewUpdate(@PathVariable("id") String id,Model  model){
+        Product  sp = productRepository.findById(id).get();
         if (sp != null){
             model.addAttribute("isUpdate", "no update id");
-            model.addAttribute("PRODUCT",productRepository.findByMaSP(masp));
+            model.addAttribute("PRODUCT",productRepository.findById(id));
         }
-        return "editProduct";
+        return "product/editProduct";
     }
 
 //    @RequestMapping(value = "/newProduct", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

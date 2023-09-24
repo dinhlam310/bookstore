@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cập nhật khách hàng</title>
+  <link th:href="@{/css/total.css}" rel="stylesheet" />
+</head>
+
+<body>
+
+<th:block th:include="/_navigation"></th:block>
+<div class="content">
+  <form id="save-form" th:action="@{'/api/customers/saveCustomer'}" th:object="${CUSTOMER}" method="post">
+
+    <div class="form-new-customer">
+      <h2>Cập nhật khách hàng</h2>
+      <div class="infomation">
+        <div class="form-group">
+          <label for="Id">Mã khách hàng</label>
+          <th:block th:if="${isUpdate != null}">
+            <input th:field="*{id}" id="Id" type="text" disabled>
+            <input type="hidden" th:field="*{id}" >
+          </th:block>
+          <th:block th:unless="${isUpdate != null}">
+            <input th:field="*{id}" id="Id" type="text" required>
+          </th:block>
+        </div>
+
+        <div class="form-group">
+          <label for="Name">Tên khách hàng</label>
+          <input th:field="*{name}" id="Name" type="text" required>
+        </div>
+        <div class="form-group">
+          <label for="Email">Email</label>
+          <input th:field="*{email}" id="Email" type="text" required>
+        </div>
+        <div class="form-group">
+          <label for="Phone">Số điện thoại</label>
+          <input th:field="*{phone}" id="Phone" type="text" required>
+        </div>
+        <div class="form-group">
+          <label for="Type">Loại khách hàng</label>
+          <input th:field="*{type}" id="Type" type="text" required>
+
+        </div>
+        <div class="form-group">
+          <label for="Billspend">Tổng chi tiêu</label>
+          <input th:field="*{billspend}" id="Billspend" type="number" required>
+
+        </div>
+        <div class="form-group">
+          <label for="Birthday">Ngày sinh</label>
+          <input th:field="*{birthday}" id="Birthday" type="date" required>
+        </div>
+      </div>
+      <div class="submit" id="submit">
+        <button type="submit" >Sửa thông tin khách hàng</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

@@ -1,9 +1,6 @@
 package com.example.bookstore.DAO;
 
-import com.example.bookstore.entity.KhachHang;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface CustomerDAO {

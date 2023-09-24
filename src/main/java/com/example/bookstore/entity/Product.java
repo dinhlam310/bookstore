@@ -13,25 +13,25 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name = "san_pham")
-public class SanPham {
+@Table(name = "product")
+public class Product {
 
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MaSP", nullable = false)
+    @Column(name = "id", nullable = false)
     @Pattern(regexp = "^[0-9]{4}$")
-    @JsonProperty("MaSP")
-    private String maSP;
+    //@JsonProperty("id")
+    private String id;
 
-    @Column(name = "TenSP", nullable = false)
-    @JsonProperty("TenSP")
-    private String TenSP;
-    @Column(name = "SoLuong", nullable = false)
-    @JsonProperty("SoLuong")
+    @Column(name = "name", nullable = false)
+    //@JsonProperty("name")
+    private String name;
+    @Column(name = "quantity", nullable = false)
+    //@JsonProperty("quantity")
     @Min(value = 0, message = "Giá trị phải lớn hơn hoặc bằng 0")
-    private int SoLuong;
-    @Column(name = "DonGia", nullable = false)
-    @JsonProperty("DonGia")
+    private int quantity;
+    @Column(name = "price", nullable = false)
+    //@JsonProperty("price")
     @Min(value = 0, message = "Giá trị phải lớn hơn hoặc bằng 0")
-    private int DonGia;
+    private int price;
 }

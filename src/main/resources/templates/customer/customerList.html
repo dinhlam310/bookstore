@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách khách hàng</title>
+    <link th:href="@{/css/total.css}" rel="stylesheet" />
+
+    <style>
+        table, th, td, tr {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        table{
+            width: max-content;
+        }
+        .timkiemkhachhang{
+            border: 1px solid black;
+            padding: 10px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<th:block th:include="/_navigation"></th:block>
+<div class="content">
+
+<h1>Danh sách khách hàng</h1>
+    <h2 th:if-="${isOk != null}" th:text="${isOk}" style="color: green"></h2>
+    <h2 th:if-="${isUpdate != null}" th:text="${isUpdate}" style="color: green"></h2>
+<table>
+    <thead>
+    <tr>
+        <th>Mã khách hàng</th>
+        <th>Họ và tên</th>
+        <th>Loại khách hàng</th>
+        <th>Tổng chi tiêu</th>
+        <th>Email</th>
+        <th>Số điện thoại</th>
+        <th>Ngày sinh</th>
+        <th>Tùy chọn</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="customer : ${customerPage.getContent()}">
+        <td th:text="${customer.getId()}"></td>
+        <td th:text="${customer.getName()}"></td>
+        <td th:text="${customer.getType()}"></td>
+        <td th:text="${customer.calculatebillspend()}"></td>
+        <td th:text="${customer.getEmail()}"></td>
+        <td th:text="${customer.getPhone()}"></td>
+        <td th:text="${customer.getBirthday()}"></td>
+        <td>
+            <a class="option" th:href="@{'/api/customers/update/' +${customer.getId()} }"> sửa </a>
+
+            <a class="option" th:href="@{'/api/customers/delete/'+ ${customer.getId()} }"> xóa </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div style="width: max-content">
+    <a th:if="${customerPage.hasPrevious()}" th:href="@{/api/customers/customerList/page(page=${customerPage.totalPages - customerPage.totalPages })}">
+        Trang đầu
+    </a>
+
+    <a th:if="${customerPage.hasPrevious()}" th:href="@{/api/customers/customerList/page(page=${customerPage.number - 1})}">
+        Trước
+    </a>
+    <span th:unless="${customerPage.hasPrevious()}">Trước</span>
+
+    <span th:text="${customerPage.number + 1}"></span>/<span th:text="${customerPage.totalPages}"></span>
+
+    <a th:if="${customerPage.hasNext()}" th:href="@{/api/customers/customerList/page(page=${customerPage.number + 1})}">
+        Tiếp
+    </a>
+    <span th:unless="${customerPage.hasNext()}">Tiếp</span>
+
+
+    <a th:if="${customerPage.hasNext()}" th:href="@{/api/customers/customerList/page(page=${customerPage.totalPages - 1})}">
+        Trang cuối
+    </a>
+</div>
+
+    <div class="timkiemkhachhang">
+        <form class="findCustomer" th:action="@{'/api/customers/findCustomer'}" method="get">
+            <label for="name"></label>
+            <input type="text"  name="name" id="name" placeholder="Nhập tên khách hàng">
+            <button type="submit" >Tìm kiếm</button>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

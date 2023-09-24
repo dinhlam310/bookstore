@@ -14,10 +14,10 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 public class AppConfig {
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
     @Bean
     public DataSource dataSource() {
@@ -25,14 +25,14 @@ public class AppConfig {
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/my_project");
         dataSource.setUsername("root");
-        dataSource.setPassword("root");
+        dataSource.setPassword("123456");
         return dataSource;
     }
 
-    @Bean
-    public PlatformTransactionManager transactionManager() {
-        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
-        transactionManager.setDataSource(dataSource());
-        return transactionManager;
-    }
+//    @Bean
+//    public PlatformTransactionManager transactionManager() {
+//        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
+//        transactionManager.setDataSource(dataSource());
+//        return transactionManager;
+//    }
 }

@@ -4,11 +4,11 @@ import lombok.Data;
 
 @Data
 public class ProductDTO {
-    private String maSP;
+    private String id;
 
-    private String TenSP;
+    private String Name;
 
-    private int SoLuong;
+    private int Quantity;
 
-    private int DonGia;
+    private int Price;
 }

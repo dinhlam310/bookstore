@@ -17,31 +17,31 @@
       <h2>Cập nhật sản phẩm</h2>
       <div class="infomation">
         <div class="form-group">
-          <label for="MaSP">Mã sản phẩm</label>
+          <label for="Id">Mã sản phẩm</label>
           <th:block th:if="${isUpdate != null}">
-            <input th:field="*{maSP}" id="MaSP" type="text" disabled>
-            <input type="hidden" th:field="*{maSP}" >
+            <input th:field="*{id}" id="Id" type="text" disabled>
+            <input type="hidden" th:field="*{id}" >
           </th:block>
           <th:block th:unless="${isUpdate != null}">
-            <input th:field="*{maSP}" id="MaSP" type="text" required>
+            <input th:field="*{id}" id="Id" type="text" required>
           </th:block>
 
         </div>
         <div class="form-group">
           <label for="TenSP">Tên sản phẩm</label>
-          <input th:field="*{TenSP}"  id="TenSP" type="text" required>
+          <input th:field="*{name}"  id="TenSP" type="text" required>
         </div>
         <div class="form-group">
           <label for="SoLuong">Số lượng</label>
-          <input th:field="*{SoLuong}"  id="SoLuong" type="text" required>
+          <input th:field="*{quantity}"  id="SoLuong" type="number" required>
         </div>
         <div class="form-group">
           <label for="DonGia">Đơn giá</label>
-          <input th:field="*{DonGia}"  id="DonGia" type="text" required>
+          <input th:field="*{price}"  id="DonGia" type="number" required>
         </div>
       </div>
       <div class="submit" id="submit">
-        <button id="bth-save" type="submit" >Sửa</button>
+        <button id="bth-save" type="submit" >Sửa thông tin sản phẩm</button>
       </div>
     </div>
   </form>

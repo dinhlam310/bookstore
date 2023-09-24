@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách nhân viên</title>
+  <link th:href="@{/css/total.css}" rel="stylesheet" />
+
+  <style>
+    table, th, td, tr {
+      border: 1px solid black;
+      padding: 10px;
+    }
+    table{
+       width: max-content;
+     }
+    .timkiemnhanvien{
+      border: 1px solid black;
+      padding: 10px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+<th:block th:include="/_navigation"></th:block>
+<div class="content">
+
+  <h1>Danh sách nhân viên</h1>
+  <h2 th:if-="${isOk != null}" th:text="${isOk}" style="color: green"></h2>
+  <h2 th:if-="${isUpdate != null}" th:text="${isUpdate}" style="color: green"></h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Mã nhân viên</th>
+      <th>Họ và tên</th>
+      <th>Chức vụ</th>
+      <th>Địa chỉ</th>
+      <th>Email</th>
+      <th>Số điện thoại</th>
+      <th>Ngày sinh</th>
+      <th>Tùy chọn</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="staff : ${staffPage.getContent()}">
+      <td th:text="${staff.getId()}"></td>
+      <td th:text="${staff.getUsername()}"></td>
+      <td>
+    <span th:each="role, iter : ${staff.roles}">
+        <span th:text="${role.name}"></span>
+        <span th:if="${!iter.last}">, </span>
+    </span>
+      </td>
+      <td th:text="${staff.getAddress()}"></td>
+      <td th:text="${staff.getEmail()}"></td>
+      <td th:text="${staff.getPhone()}"></td>
+      <td th:text="${staff.getDate()}"></td>
+      <td>
+        <a class="option" th:href="@{'/api/staffs/update/' +${staff.getId()} }"> sửa </a>
+
+        <a class="option" th:href="@{'/api/staffs/delete/'+ ${staff.getId()} }"> xóa </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div>
+    <a th:if="${staffPage.hasPrevious()}" th:href="@{/api/staffs/staffList/page(page=${staffPage.totalPages - staffPage.totalPages })}">
+      Trang đầu
+    </a>
+
+    <a th:if="${staffPage.hasPrevious()}" th:href="@{/api/staffs/staffList/page(page=${staffPage.number - 1})}">
+      Trước
+    </a>
+    <span th:unless="${staffPage.hasPrevious()}">Trước</span>
+
+    <span th:text="${staffPage.number + 1}"></span>/<span th:text="${staffPage.totalPages}"></span>
+
+    <a th:if="${staffPage.hasNext()}" th:href="@{/api/staffs/staffList/page(page=${staffPage.number + 1})}">
+      Tiếp
+    </a>
+    <span th:unless="${staffPage.hasNext()}">Tiếp</span>
+
+    <a th:if="${staffPage.hasNext()}" th:href="@{/api/staffs/staffList/page(page=${staffPage.totalPages - 1})}">
+      Trang cuối
+    </a>
+  </div>
+
+  <div class="timkiemnhanvien">
+    <form class="findStaff" th:action="@{'/api/staffs/searchName'}" method="get">
+      <label for="username"></label>
+      <input type="text"  name="username" id="username" placeholder="Nhập tên nhân viên">
+      <button type="submit" >Tìm kiếm</button>
+    </form>
+  </div>
+
+</div>
+</body>
+</html>

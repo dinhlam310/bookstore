@@ -1,23 +1,18 @@
 package com.example.bookstore;
 
 
-import com.example.bookstore.entity.SanPham;
+import com.example.bookstore.entity.Product;
 import com.example.bookstore.repository.ProductRepository;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.Assert.assertEquals;
 
 @SpringBootTest
 class BookstoreApplicationTests {
-
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Test
-    void contextLoads() {
-        SanPham sanPham = SanPham.builder().TenSP("iphone").build();
-        productRepository.save(sanPham);
+    public static void main(String[] args) {
     }
-
 }

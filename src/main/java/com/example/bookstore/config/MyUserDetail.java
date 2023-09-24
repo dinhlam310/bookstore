@@ -1,35 +1,44 @@
-package com.example.bookstore.details;
+package com.example.bookstore.config;
 
-import com.example.bookstore.entity.NhanVien;
+import com.example.bookstore.entity.Staff;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
-import javax.net.ssl.SSLSession;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
-public class CustomUserDetails implements UserDetails {
+@Data
+@AllArgsConstructor
+@Component
+public class MyUserDetail implements UserDetails {
 
-    private NhanVien nhanVien;
-
-    public CustomUserDetails(NhanVien nhanVien) {
-        this.nhanVien = nhanVien;
-    }
+   private Staff staff;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("USER"));
+        Set<String> roles = staff.getRoleNames();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        for (String role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role));
+        }
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return nhanVien.getMatKhau();
+        return staff.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return nhanVien.getMaNhanVien();
+        return staff.getUsername();
     }
 
     @Override
@@ -51,7 +60,4 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-
-
 }

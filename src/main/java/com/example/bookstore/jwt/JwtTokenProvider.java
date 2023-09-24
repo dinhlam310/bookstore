@@ -1,6 +1,6 @@
 package com.example.bookstore.jwt;
 
-import com.example.bookstore.details.CustomUserDetails;
+import com.example.bookstore.config.MyUserDetail;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ public class JwtTokenProvider {
     private final String JWT_SECRET = "dinhlam";
     private final long JWT_EXPIRATION = 604800000L; // tương ứng thời gian hết hạn trong milisec = 1 tuần
 
-    public String generateToken(CustomUserDetails userDetails) {
+    public String generateToken(MyUserDetail userDetails) {
         // Lấy thông tin user
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);

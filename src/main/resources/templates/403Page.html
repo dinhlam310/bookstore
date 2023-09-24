@@ -8,10 +8,10 @@
 
 <th:block th:include="/_navigation"></th:block>
 
+<div class="content">
 <h3 th:if="${message != null}" th:utext="${message}" style="color: red;"></h3>
-
 <div th:if="${userInfo != null}" th:utext="${userInfo}"></div>
-
+</div>
 </body>
 
 </html>

@@ -39,15 +39,15 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="sanPham : ${productPage.getContent()}">
-      <td th:text="${sanPham.getMaSP()}"></td>
-      <td th:text="${sanPham.getTenSP()}"></td>
-      <td th:text="${sanPham.getSoLuong()}"></td>
-      <td th:text="${sanPham.getDonGia()}"></td>
+    <tr th:each="product : ${productPage.getContent()}">
+      <td th:text="${product.getId()}"></td>
+      <td th:text="${product.getName()}"></td>
+      <td th:text="${product.getQuantity()}"></td>
+      <td th:text="${product.getPrice()}"></td>
       <td >
-        <a class="option" th:href="@{'/api/products/update/' +${sanPham.getMaSP()} }"> sửa </a>
+        <a class="option" th:href="@{'/api/products/update/' +${product.getId()} }"> sửa </a>
 
-        <a class="option" th:href="@{'/api/products/delete/'+ ${sanPham.getMaSP()} }"> xóa </a>
+        <a class="option" th:href="@{'/api/products/delete/'+ ${product.getId()} }"> xóa </a>
       </td>
     </tr>
     </tbody>
@@ -76,9 +76,9 @@
   </div>
 
   <div class="timkiemsanpham">
-    <form class="findProduct" th:action="@{'/api/products/searchTenSP'}" method="get">
-    <label for="maSP"></label>
-      <input type="text"  name="tenSP" id="maSP" placeholder="Nhập tên sản phẩm">
+    <form class="findProduct" th:action="@{'/api/products/searchName'}" method="get">
+    <label for="name"></label>
+      <input type="text"  name="name" id="name" placeholder="Nhập tên sản phẩm">
     <button type="submit" >Tìm kiếm</button>
     </form>
   </div>

@@ -1,12 +1,15 @@
 package com.example.bookstore.DAO;
 
-import com.example.bookstore.entity.NhanVien;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface StaffDAO {
+@Transactional
+public interface StaffDAO  {
+
+//    @Autowired
+//    private EntityManager entityManager;
+
 //    public void themNhanVien(NhanVien nhanVien);
 //    public NhanVien layNhanVien(String maNhanVien);
 //    public void capNhatNhanVien(NhanVien nhanVien);
@@ -15,9 +18,20 @@ public interface StaffDAO {
 //
 //    void saveOrUpdateNhanVien(NhanVien nhanVien);
 //
-    NhanVien getNhanVienById(String maNhanVien);
+//    NhanVien getNhanVienByMaNhanVien(String maNhanVien);
 
-    List<String> getRoleNames(String roleName);
+//    List<String> getRoleNames(String roleName);
+//
+//    List<String> getNhanVienByRoleName(String roleName);
 
 //    List<String> getRoleNames(Long userId);
+
+//    public List<String> getRoleNames(Long userId) {
+//        String sql = "Select ur.appRole.roleName from " + UserRole.class.getName() + " ur " //
+//                + " where ur.appUser.userId = :userId ";
+//
+//        Query query = this.entityManager.createQuery(sql, String.class);
+//        query.setParameter("userId", userId);
+//        return query.getResultList();
+//    }
 }
