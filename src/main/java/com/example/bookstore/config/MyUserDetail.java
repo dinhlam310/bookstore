@@ -33,7 +33,7 @@ public class MyUserDetail implements UserDetails {
 
     @Override
     public String getPassword() {
-        return staff.getPassword();
+        return staff.getPasswordhash();
     }
 
     @Override

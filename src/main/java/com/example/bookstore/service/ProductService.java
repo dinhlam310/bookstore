@@ -36,37 +36,4 @@ public class ProductService {
         }
     }
 
-//    public  ProductDTO updateProduct(String MaSP, ProductDTO productDTO) {
-//        Optional<SanPham> productOptional = productRepository.findByMaSP(MaSP);
-//        if (productOptional.isPresent()) {
-//            SanPham sanPham = productOptional.get();
-//
-//            sanPham.setTenSP(productDTO.getTenSP());
-//            sanPham.setSoLuong(productDTO.getSoLuong());
-//            sanPham.setDonGia(productDTO.getDonGia());
-//
-//            productRepository.save(sanPham);
-//
-//            return convertToDTO(sanPham);
-//        } else {
-//            return null;
-//        }
-//    }
-//
-//    private ProductDTO convertToDTO(SanPham sanPham) {
-//        ProductDTO productDTO = new ProductDTO();
-//
-//        productDTO.setTenSP(sanPham.getTenSP());
-//        productDTO.setSoLuong(sanPham.getSoLuong());
-//        productDTO.setDonGia(sanPham.getDonGia());
-//        return productDTO;
-//    }
-
-//    private KhachHang convertToEntity(CustomerDTO customerDTO) {
-//        KhachHang khachHang = new KhachHang();
-//        khachHang.setTenKhachHang(customerDTO.getTenKhachHang());
-//        khachHang.setEmail(customerDTO.getEmail());
-//        khachHang.setSoDienThoai(customerDTO.getSoDienThoai());
-//        return khachHang;
-//    }
 }

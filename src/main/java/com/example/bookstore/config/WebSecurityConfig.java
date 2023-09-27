@@ -35,25 +35,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserServiceConfig userServiceConfig;
 
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//
-//        // Sét đặt dịch vụ để tìm kiếm User trong Database.
-//        // Và sét đặt PasswordEncoder.
-//        auth.MyUserDetail(myUserDetail)
-//                .passwordEncoder(passwordEncoder());
-//    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userServiceConfig) // Cung cáp userservice cho spring security
-                .passwordEncoder(passwordEncoder()); // cung cấp password encoder
-    }
-
-    // lớp EncrytedPasswordUtils đã có sẵn hàm encrytePassword
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userServiceConfig)
+                .passwordEncoder(passwordEncoder);
     }
 
     @Bean
@@ -82,6 +72,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -96,7 +88,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/userInfo").access("hasAnyRole('STAFF', 'ADMIN')");
 
         // Trang chỉ dành cho ADMIN
-        http.authorizeRequests().antMatchers("/admin").access("hasRole('ADMIN')");
+        http.authorizeRequests().antMatchers("/api/staffList/").access("hasRole('ADMIN')");
 
         // Khi người dùng đã login, với vai trò user .
         // Nhưng cố ý  truy cập vào trang admin

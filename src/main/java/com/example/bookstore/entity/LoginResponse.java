@@ -2,7 +2,6 @@ package com.example.bookstore.entity;
 
 import lombok.Data;
 
-
 @Data
 public class LoginResponse {
     private String accessToken;

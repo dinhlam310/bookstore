@@ -60,7 +60,7 @@ public class AuthController {
          return "loginPage";
     }
 
-    @RequestMapping(value = "/loginSuccess", method = RequestMethod.GET)
+    @RequestMapping(value = "/LoginSuccess", method = RequestMethod.GET)
     public String loginSuccessPage(Model model) {
         return "loginSuccessPage";
     }

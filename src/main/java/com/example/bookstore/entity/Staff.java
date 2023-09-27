@@ -27,6 +27,9 @@ public class Staff {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "passwordhash", nullable = false)
+    private String passwordhash;
     @Column(name = "username", nullable = false)
     private String username;
     @Column(name = "date", nullable = false)
@@ -45,6 +48,8 @@ public class Staff {
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+
 
     public Set<String> getRoleNames() {
         Set<String> roleNames = new HashSet<>();

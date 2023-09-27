@@ -17,15 +17,11 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, String> {
 
     Page<Product> findAll(Pageable pageable);
-//
+
     @Query("SELECT s FROM Product s WHERE s.name LIKE :name")
     List<Product> findByNameLike(@Param("name") String name);
     Product save(Product product);
-//
-////    @Modifying
-////    @Query(value = "INSERT INTO san_pham (maSP, tenSP, so_luong, don_gia) VALUES (:maSP, :TenSP, :SoLuong, :DonGia)", nativeQuery = true)
-////    void save1(@Param("maSP") String maSP, @Param("TenSP") String TenSP, @Param("SoLuong") int SoLuong, @Param("DonGia") int DonGia);
-//
+
     Optional<Product> findById(String id);
 
 }

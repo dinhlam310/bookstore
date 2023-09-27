@@ -17,7 +17,7 @@
 <div class="content">
   <div class="formsignin">
   <h1>Đăng nhập</h1>
-    <h2 th:if-="${error != null}" th:text="${error}" style="color:red"> </h2>
+    <h2 th:if="${#request.getParameter('error') != null}" th:text="${error}" style="color:red"></h2>
 <form name='formSignIn'  th:action="@{/j_spring_security_check}" method='POST'>
   <table>
     <tr>

@@ -55,14 +55,7 @@ public class StaffController {
 //        return staffRepository.save(nhanVien);
 //    }
 //
-//    @PutMapping("/{staffId}")
-//    public ResponseEntity<EmployeeDTO> updateStaff(@PathVariable("staffId") String maNhanVien, @RequestBody StaffDTO staffDTO) {
-//        EmployeeDTO updatedStaff = staffService.updateStaff(maNhanVien, staffDTO);
-//        if (updatedStaff == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        return ResponseEntity.ok(updatedStaff);
-//    }
+
 
 //    @DeleteMapping("/{staffId}")
 //    public ResponseEntity<Void> deleteStaff(@PathVariable("staffId") String maNhanVien) {

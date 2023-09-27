@@ -1,6 +1,5 @@
 package com.example.bookstore.service;
 
-import com.example.bookstore.entity.Customer;
 import com.example.bookstore.entity.Order;
 import com.example.bookstore.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
