@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>User Info</title>
+  <link th:href="@{/css/total.css}" rel="stylesheet" />
+</head>
+<body>
+
+<th:block th:include="/_navigation"></th:block>
+
+<div class="content">
+<h2>Trang thông tin người dùng!!!</h2>
+<h3>Xin chào người dùng : <span th:utext="${#request.userPrincipal.name}"></span></h3>
+<b>Đây là giao diện khi bạn vừa mới đăng nhập!!!!</b>
+
+<br/><br/>
+
+<div th:if="${userInfo != null}" th:utext="${userInfo}"></div>
+</div>
+</body>
+
+</html>

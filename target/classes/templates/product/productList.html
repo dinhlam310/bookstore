@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách sản phẩm</title>
+  <link th:href="@{/css/total.css}" rel="stylesheet" />
+
+  <style>
+    table, th, td, tr {
+      border: 1px solid black;
+      padding: 10px;
+    }
+    table{
+      width: max-content;
+    }
+    .timkiemsanpham{
+      border: 1px solid black;
+      padding: 10px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+<th:block th:include="/_navigation"></th:block>
+<div class="content">
+
+  <h1>Danh sách sản phẩm</h1>
+<h2 th:if-="${isOk != null}" th:text="${isOk}" style="color: green"></h2>
+  <h2 th:if-="${isUpdate != null}" th:text="${isUpdate}" style="color: green"></h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Mã sản phẩm</th>
+      <th>Tên sản phẩm</th>
+      <th>Số lượng</th>
+      <th>Đơn giá</th>
+      <th>Tùy chọn</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${productPage.getContent()}">
+      <td th:text="${product.getId()}"></td>
+      <td th:text="${product.getName()}"></td>
+      <td th:text="${product.getQuantity()}"></td>
+      <td th:text="${product.getPrice()}"></td>
+      <td >
+        <a class="option" th:href="@{'/api/products/update/' +${product.getId()} }"> sửa </a>
+
+        <a class="option" th:href="@{'/api/products/delete/'+ ${product.getId()} }"> xóa </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div style="width: max-content">
+    <a th:if="${productPage.hasPrevious()}" th:href="@{/api/products/productList/page(page=${productPage.totalPages - productPage.totalPages })}">
+      Trang đầu
+    </a>
+
+    <a th:if="${productPage.hasPrevious()}" th:href="@{/api/products/productList/page(page=${productPage.number - 1})}">
+      Trước
+    </a>
+    <span th:unless="${productPage.hasPrevious()}">Trước</span>
+
+    <span th:text="${productPage.number + 1}"></span>/<span th:text="${productPage.totalPages}"></span>
+
+    <a th:if="${productPage.hasNext()}" th:href="@{/api/products/productList/page(page=${productPage.number + 1})}">
+      Tiếp
+    </a>
+    <span th:unless="${productPage.hasNext()}">Tiếp</span>
+
+    <a th:if="${productPage.hasNext()}" th:href="@{/api/products/productList/page(page=${productPage.totalPages - 1})}">
+      Trang cuối
+    </a>
+  </div>
+
+  <div class="timkiemsanpham">
+    <form class="findProduct" th:action="@{'/api/products/searchName'}" method="get">
+    <label for="name"></label>
+      <input type="text"  name="name" id="name" placeholder="Nhập tên sản phẩm">
+    <button type="submit" >Tìm kiếm</button>
+    </form>
+  </div>
+
+</div>
+</body>
+</html>

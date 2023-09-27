@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/total.css}" rel="stylesheet" />
+</head>
+<body>
+
+<th:block th:include="/_navigation"></th:block>
+
+<div class="content">
+        <h2>Xin chào người dùng , hiện tại bạn chưa thể sử dụng bất kì chức năng nào</h2>
+        <h2>Xin hãy đăng nhập để có thể sử dụng toàn bộ chức năng</h2>
+
+<!--        <h2 th:text="${title}"></h2>-->
+<!--        <h2 th:text="${message}"></h2>-->
+       <a th:href="@{/login}">Đăng nhập</a>
+</div>
+</body>
+</html>
