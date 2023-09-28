@@ -80,16 +80,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable(); //CSRF ( Cross Site Request Forgery) là kĩ thuật tấn công bằng cách sử dụng quyền chứng thực của người sử dụng đối với 1 website khác
 
         // Các trang không yêu cầu login như vậy ai cũng có thể vào được admin hay user hoặc guest có thể vào các trang
-        http.authorizeRequests().antMatchers("/", "/login").permitAll();
+        http.authorizeRequests().antMatchers( "/login").permitAll();
 
         // Trang /userInfo yêu cầu phải login với vai trò ROLE_USER hoặc ROLE_ADMIN.
         // Nếu chưa login, nó sẽ redirect tới trang /login.sau Mình dung hasAnyRole để cho phép ai được quyền vào
         // 2  ROLE_USER và ROLEADMIN thì ta lấy từ database ra cái mà mình chèn vô ở bước 1 (chuẩn bị database)
-        http.authorizeRequests().antMatchers("/userInfo").access("hasAnyRole('STAFF', 'ADMIN')");
+        http.authorizeRequests().antMatchers("/userInfo", "/api/customer" , "api/product" , "api/order").access("hasAnyRole('STAFF', 'ADMIN')");
 
         // Trang chỉ dành cho ADMIN
-        http.authorizeRequests().antMatchers("/api/staffList/").access("hasRole('ADMIN')");
+        //http.authorizeRequests().antMatchers("/api/staffs").access("hasRole('ADMIN')");
 
+        http.authorizeRequests().and().exceptionHandling().accessDeniedHandler((request, response, accessDeniedException) -> {
+            if (request.isUserInRole("STAFF")) {
+                response.sendRedirect("/403"); // Chuyển hướng đến trang lỗi 403 (hoặc bạn có thể xử lý theo ý muốn)
+            } else {
+                response.sendRedirect("/login?error=true"); // Chuyển hướng đến trang đăng nhập với thông báo lỗi
+            }
+        });
         // Khi người dùng đã login, với vai trò user .
         // Nhưng cố ý  truy cập vào trang admin
         // Ngoại lệ AccessDeniedException sẽ ném ra.

@@ -43,3 +43,10 @@ VOLUME /tmp
 COPY target/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 EXPOSE 8081
+
+ENV SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/my_project
+ENV SPRING_DATASOURCE_USERNAME=root
+ENV SPRING_DATASOURCE_PASSWORD=123456
+
+# Thêm phụ thuộc MySQL JDBC driver
+COPY mysql-connector-java.jar /mysql-connector-java.jar
