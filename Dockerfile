@@ -38,10 +38,10 @@
 ## Chạy ứng dụng Spring Boot
 #ENTRYPOINT ["java", "-jar", "bookstore.jar"]
 
-FROM openjdk:20
+FROM openjdk:17
 VOLUME /tmp
 COPY target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
 EXPOSE 8081
 
 ENV SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/my_project
